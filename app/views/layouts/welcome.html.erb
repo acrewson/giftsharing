@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gift Sharing!</title>
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/cerulean/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css">
+
+
+
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style type="text/css">
+    /* Only necessary if you are using navbar-fixed-top */
+    body {
+      padding-top: 50px;
+    }
+
+
+  </style>
+
+
+</head>
+<body>
+
+  <div class="container">
+    <%= yield %>
+  </div>
+
+</body>
+</html>
+

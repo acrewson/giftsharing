@@ -1,0 +1,72 @@
+
+<!-- <div class="container"> -->
+
+  <div class="jumbotron">
+    <div class="h2_update">Welcome, <%= @user_first_name %>! Here are your gift lists.</div>
+  </div>
+
+
+  <div class = "row">
+    <div class="col-md-6">
+      <h4>Your current lists...</h4>
+      <div class="bs-example">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>List Name</th>
+              <th>Event Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @mylists.each do |mylist| %>
+              <tr>
+                <td><a href="/mylists/<%= mylist.id %>/list"><%= mylist.listname %></a></td>
+                <td><%= mylist.eventdate %></td>
+                <td><a href="/mylists/<%= mylist.id %>/delete">Delete</a></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>   <!-- This ends the table -->
+
+    <div class="col-md-6">
+      <h4>Create a new list:</h4>
+      <form action="/mylists/create">
+
+      <div class="bs-example">
+        <form role="form">
+          <div class="form-group">
+            <label for="listname">List Name</label>
+            <input name = "listname" type="text" class="form-control" id="listname" placeholder="Julia's Birthday List 2014">
+          </div>
+          <div class="form-group">
+            <label for="listtype">List Type</label>
+            <select name="listtype">
+              <% @list_types.each do |lt|  %>
+                <option value="<%= Listtype.find_by(listtype:  lt.listtype).id %>"><%= lt.listtype %></option>
+              <% end %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="eventdate">Event Date</label>
+            <input name = "eventdate" type="text" class="form-control" id="eventdate" placeholder="09/24/2014">
+          </div>
+          <input type="submit" class="btn btn-lg btn-success" value="Create list!">
+
+        </form>
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+<!-- </div> -->

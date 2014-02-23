@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  listname: MyString
+  listType_id: 1
+  eventdate: 2014-02-22
+  user_id: 1
+  datedeleted: 2014-02-22 10:53:01
+
+two:
+  listname: MyString
+  listType_id: 1
+  eventdate: 2014-02-22
+  user_id: 1
+  datedeleted: 2014-02-22 10:53:01
