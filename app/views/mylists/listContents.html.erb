@@ -1,1 +1,61 @@
-<p>hi</p>
+  <div class="jumbotron">
+    <div class="h2_update"><%= @listname %></div>
+  </div>
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% @viewable_cols.each do |col| %>
+          <th><%= col %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @myitems.each do |i| %>
+        <tr>
+          <td><a href="<%= i.url %>"><%= i.description %></a></td>
+          <td><%= i.quantity %></td>
+          <td>Example</td>
+          <td><a href="/mylists/<%= @list_id %>/list/delete/<%= i.id %>">Delete</a></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+  <!-- Add a form to allow users to add new items -->
+  <h4>Add a new item to your list:</h4>
+  <form action="/mylists/<%= @list_id %>/list/add">
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input name = "description" type="text" class="form-control" id="description" placeholder="Red sweater">
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity Requested</label>
+    <input name = "quantity" type="text" class="form-control" id="quantity" placeholder="1">
+  </div>
+  <div class="form-group">
+    <label for="url">Web Address of Item</label>
+    <input name = "url" type="text" class="form-control" id="url" placeholder="Copy link to item here...">
+  </div>
+  <div class="form-group">
+    <label for="comments">Additional Details</label>
+    <textarea name = "comments" type="text" class="form-control" id="comments" placeholder="Enter additional information about your item here. E.g. Why you want it, what you'll use it for, etc."></textarea>
+  </div>
+  <input type="submit" class="btn btn-lg btn-success" value="Add item!">
+</form>
+
+
+<!--   # create_table "items", force: true do |t|
+  #   t.string   "description"
+  #   t.integer  "quantity"
+  #   t.text     "comments"
+  #   t.string   "url"
+  #   t.integer  "quantity_purchased"
+  #   t.datetime "date_deleted"
+  #   t.text     "reason_deleted"
+  #   t.integer  "list_id"
+  #   t.datetime "created_at"
+  #   t.datetime "updated_at"
+  # end -->
+
