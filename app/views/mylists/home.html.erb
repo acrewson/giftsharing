@@ -8,24 +8,27 @@
   <div class = "row">
     <div class="col-md-6">
       <h4>Your current lists...</h4>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>List Name</th>
-            <th>Event Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @mylists.each do |mylist| %>
+      <div class="padding_bottom">
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td><a href="/mylists/<%= mylist.id %>/list"><%= mylist.listname %></a></td>
-              <td><%= mylist.eventdate %></td>
-              <td><a href="/mylists/<%= mylist.id %>/delete">Delete</a></td>
+              <th>List Name</th>
+              <th>Event Date</th>
+              <th></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% @mylists.each do |mylist| %>
+              <tr>
+                <td><a href="/mylists/<%= mylist.id %>/list"><%= mylist.listname %></a></td>
+                <td><%= mylist.eventdate.strftime("%B %d, %Y") %></td>
+                <td><a href="/mylists/<%= mylist.id %>/delete">Delete</a></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <h4>Lists shared with you...</h4>
     </div>   <!-- This ends the table column -->
 
     <div class="col-md-6">
@@ -33,7 +36,7 @@
       <form action="/mylists/create">
         <div class="form-group">
           <label for="listname">List Name</label>
-          <input name = "listname" type="text" class="form-control" id="listname" placeholder="Julia's Birthday List 2014">
+          <input name = "listname" type="text" class="form-control" id="listname" placeholder="<%= @user_first_name %>'s Birthday List 2014">
         </div>
         <div class="form-group">
           <label for="listtype">List Type</label>

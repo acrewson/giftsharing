@@ -6,7 +6,7 @@
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/cerulean/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css">
-
+  <link rel="stylesheet" href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css">
 
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -31,7 +31,22 @@
 <body>
 
   <div class="container">
+    <% if notice.present? %>
+      <div class="alert alert-dismissable alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <%= notice %>
+      </div>
+    <% end %>
+
     <%= yield %>
+
+  </div>
+
+  <!-- Site footer -->
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; Andy Crewson 2014</p>
+    </div>
   </div>
 
 </body>

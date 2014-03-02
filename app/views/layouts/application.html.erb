@@ -6,14 +6,46 @@
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/cerulean/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">
+  <!-- <link rel="stylesheet" href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css"> -->
+
+
+
 
   <style>
     /* Only necessary if you are using navbar-fixed-top */
 
     body {
       padding-top: 100px;
+      margin-bottom: 60px;
     }
 
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+
+    #footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+       Set the fixed height of the footer here
+      height: 60px;
+      background-color: #f5f5f5;
+    }
+
+
+ /*   .container {
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
+    }*/
+    .container .text-muted {
+      margin: 20px 0;
+    }
+
+
+    /*Andy wrote this...*/
     .jumbotron  {
       background-color: #778899;
     }
@@ -21,6 +53,11 @@
     .h2_update {
       color: white;
     }
+
+    .padding_bottom {
+      padding-bottom: 20px;
+    }
+
 
   </style>
 
@@ -32,6 +69,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,11 +83,19 @@
       <%= link_to "Gift Sharing!", "/", :class => "navbar-brand" %>
     </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/mylists">Your Lists</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+    <% user = User.find_by(:id => session[:user_id]) %>
+    <% if user.present? %>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/mylists">Your Lists</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+
+          <li><a href="/users/<%= user.id %>/show">My profile</a></li>
+          <li><a href="/logout">Sign Out</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    <% end %>
 
   </nav>
 
@@ -63,15 +109,14 @@
 
     <%= yield %>
 
-    <!-- Site footer -->
-    <div id="footer">
-      <p>&copy; Andy Crewson 2014</p>
-    </div>
-
-
   </div>
 
-
+  <!-- Site footer -->
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; Andy Crewson 2014</p>
+    </div>
+  </div>
 
 
 </body>

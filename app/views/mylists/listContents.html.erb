@@ -14,8 +14,8 @@
     <tbody>
       <% @myitems.each do |i| %>
         <tr>
-          <td><a href="<%= i.url %>"><%= i.description %></a></td>
-          <td><%= i.quantity %></td>
+          <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
+          <td width="100"><%= i.quantity %></td>
           <td>Example</td>
           <td><a href="/mylists/<%= @list_id %>/list/delete/<%= i.id %>">Delete</a></td>
         </tr>

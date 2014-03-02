@@ -4,12 +4,16 @@ require 'time'
 class MylistsController < ApplicationController
 
   def home
-    cookies[:firstname] = "Andy"
-    @user_first_name = cookies[:firstname]
-    @mylists = List.where(datedeleted: nil)
+    current_user = User.find_by(:id => session[:user_id])
 
-    @list_types = Listtype.all
+    if current_user.present?
+      @user_first_name = current_user.firstname
+      @mylists = List.where("datedeleted is ? AND user_id = ?", nil, current_user.id)
 
+      @list_types = Listtype.all
+    else
+      redirect_to "/login", notice: "Please login to view this page"
+    end
   end
 
   def list_create

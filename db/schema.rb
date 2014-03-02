@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140222171540) do
+ActiveRecord::Schema.define(version: 20140302220537) do
 
   create_table "items", force: true do |t|
     t.string   "description"
@@ -21,19 +21,23 @@ ActiveRecord::Schema.define(version: 20140222171540) do
     t.integer  "quantity_purchased"
     t.datetime "date_deleted"
     t.text     "reason_deleted"
-    t.integer  "list_id"
+    t.integer  "deprecated"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "request_type"
+    t.integer  "list_id"
   end
 
   create_table "lists", force: true do |t|
     t.string   "listname"
-    t.integer  "listType_id"
+    t.integer  "deprecated2"
     t.date     "eventdate"
-    t.integer  "user_id"
+    t.integer  "deprecated"
     t.datetime "datedeleted"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "listtype_id"
   end
 
   create_table "listtypes", force: true do |t|
@@ -43,16 +47,18 @@ ActiveRecord::Schema.define(version: 20140222171540) do
   end
 
   create_table "purchases", force: true do |t|
-    t.integer  "item_id"
-    t.integer  "purchase_user_id"
+    t.integer  "deprecated"
+    t.integer  "deprecated2"
     t.datetime "date_purchased"
     t.integer  "quantity_purchased"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "item_id"
+    t.integer  "user_id"
   end
 
   create_table "relationships", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "deprecated"
     t.integer  "shared_user_id"
     t.integer  "relation_type_id"
     t.datetime "created_at"
@@ -66,11 +72,13 @@ ActiveRecord::Schema.define(version: 20140222171540) do
   end
 
   create_table "shared_lists", force: true do |t|
-    t.integer  "list_id"
-    t.integer  "shared_user_id"
+    t.integer  "deprecated"
+    t.integer  "deprecated2"
     t.datetime "shared_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "list_id"
+    t.integer  "user_id"
   end
 
   create_table "states", force: true do |t|
