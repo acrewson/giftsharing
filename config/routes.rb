@@ -29,7 +29,6 @@ Giftsharing::Application.routes.draw do
   # Add way for user to flag if it is an example or the exact item
   # Add a way for the user to edit the name/date of a list
   # Create way for user to share lists
-  # Allow me to see a shared list and items need purchasing
   # The remember me button doesn't do anything when logging in
   # Add a "my profile" page.
 
