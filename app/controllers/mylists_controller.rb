@@ -9,6 +9,8 @@ class MylistsController < ApplicationController
     if current_user.present?
       @user_first_name = current_user.firstname
       @mylists = List.where("datedeleted is ? AND user_id = ?", nil, current_user.id)
+      # @lists_shared_with_me = current_user.shared_lists
+      @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ?", current_user.id, nil)
 
       @list_types = Listtype.all
     else
@@ -16,17 +18,22 @@ class MylistsController < ApplicationController
     end
   end
 
+
+
+
   def list_create
     list = List.new
     list.listname = params[:listname]
-    list.listType_id = params[:listtype]
+    list.listtype_id = params[:listtype]
     list.eventdate = Date.strptime(params[:eventdate], "%m/%d/%Y")
-    # Update user_id later...
-    list.user_id = 1
+    list.user_id = session[:user_id]
     list.save
 
     redirect_to "/mylists"
   end
+
+
+
 
 
   def list_destroy
@@ -36,18 +43,29 @@ class MylistsController < ApplicationController
     redirect_to "/mylists"
   end
 
+
+
+
+
   def listContents
-    @user_first_name = cookies[:firstname]
-    @list_id = params[:list_id]
+    current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
 
-    list = List.find_by(id: params[:list_id])
-    @myitems = Item.where(list_id: params[:list_id], date_deleted: nil)
 
-    @listname = list.listname
+    if @selected_list.nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again"
+    elsif current_user.present? && current_user.id == @selected_list.user_id
+      @user_first_name = current_user.firstname
 
-    @viewable_cols = ["Item Requested", "Quantity Requested", "Request Type", ""]
+      @myitems = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
 
-    # Client.where("orders_count = ?", params[:orders])
+      @viewable_cols = ["Item Requested", "Quantity Requested", "Request Type", ""]
+    elsif current_user.present? && current_user.id != @selected_list.user_id
+      redirect_to "/mylists", notice: "You do not have access to view that page."
+    else
+      redirect_to "/login", notice: "Please login to view this page"
+    end
+
 
   end
 

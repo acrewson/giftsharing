@@ -64,6 +64,10 @@ end
 
 
 
+
+
+
+
 Listtype.destroy_all
 q = ["Birthday", "Christmas","Wedding","Baby Shower"].sort
 q.push("Other")
@@ -72,6 +76,10 @@ q.each do |listtypeName|
     p.listtype = listtypeName
     p.save
 end
+
+
+
+
 
 
 Relationtype.destroy_all
@@ -83,6 +91,11 @@ q.each do |r|
     p.relation_type_desc = r
     p.save
 end
+
+
+
+
+
 
 
 List.destroy_all
@@ -118,4 +131,109 @@ l.each do |list|
   a.save
 end
 
+
+
+SharedList.destroy_all
+
+s = [
+  {
+    :shared_date => "02/22/2014",
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id,
+    :user_id => User.find_by(firstname: "Jordan").id,
+  },
+  {
+    :shared_date => "02/26/2014",
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id,
+    :user_id => User.find_by(firstname: "Steve").id,
+  },
+  {
+    :shared_date => "03/02/2014",
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id,
+    :user_id => User.find_by(firstname: "Andy").id,
+  }
+]
+
+
+s.each do |share|
+  x = SharedList.new
+  x.shared_date = Date.strptime(share[:shared_date], "%m/%d/%Y")
+  x.list_id = share[:list_id]
+  x.user_id = share[:user_id]
+  x.save
+end
+
+
+
+Item.destroy_all
+
+i = [
+  {
+    :description => "Basketball",
+    :quantity => 1,
+    :comments => "I love to play basketball every day.",
+    :url => "http://www.amazon.com/Spalding-NBA-Street-Basketball-Official/dp/B0009VELG4/ref=sr_1_1?ie=UTF8&qid=1393813830&sr=8-1&keywords=basketball",
+    :quantity_purchased => 0,
+    :request_type => 1,
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
+  },
+  {
+    :description => "Shirt",
+    :quantity => 1,
+    :comments => "I need new work clothes",
+    :url => "http://bananarepublic.gap.com/browse/product.do?cid=56729&vid=1&pid=958408002",
+    :quantity_purchased => 0,
+    :request_type => 2,
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
+  },
+  {
+    :description => "Kindle Fire",
+    :quantity => 1,
+    :comments => "I love tablets",
+    :url => "http://www.amazon.com/kindle-fire-hdx-best-movie-tablet-8.9/dp/B00BHJRYYS/ref=sr_1_1?ie=UTF8&qid=1393814366&sr=8-1&keywords=kindle",
+    :quantity_purchased => 0,
+    :request_type => 1,
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
+  },
+  {
+    :description => "Kellogg Tuition",
+    :quantity => 1,
+    :comments => "Kellogg is very expensive!",
+    :url => "http://kellogg.northwestern.edu/",
+    :quantity_purchased => 0,
+    :request_type => 2,
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
+  },
+  {
+    :description => "The Signal and the Noise",
+    :quantity => 3,
+    :comments => "I am interested in statistical modeling",
+    :url => "http://www.amazon.com/Signal-Noise-Many-Predictions-Fail/dp/159420411X/ref=sr_1_1?s=books&ie=UTF8&qid=1393814422&sr=1-1&keywords=signal+and+the+noise",
+    :quantity_purchased => 1,
+    :request_type => 2,
+    :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
+  },
+]
+
+i.each do |item|
+  it = Item.new
+  it.description = item[:description]
+  it.quantity = item[:quantity]
+  it.comments = item[:comments]
+  it.url = item[:url]
+  it.quantity_purchased = item[:quantity_purchased]
+  it.request_type = item[:request_type]
+  it.list_id = item[:list_id]
+  it.save
+end
+
+
+RequestType.destroy_all
+
+z = RequestType.new
+z.request_type_description = 'Example'
+z.save
+
+z = RequestType.new
+z.request_type_description = 'Exact Request'
+z.save
 

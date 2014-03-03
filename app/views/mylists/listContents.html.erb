@@ -1,31 +1,37 @@
   <div class="jumbotron">
-    <div class="h2_update"><%= @listname %></div>
+    <div class="h2_update"><%= @selected_list.listname %></div>
   </div>
 
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <% @viewable_cols.each do |col| %>
-          <th><%= col %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @myitems.each do |i| %>
+  <% if @myitems.present? %>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
-          <td width="100"><%= i.quantity %></td>
-          <td>Example</td>
-          <td><a href="/mylists/<%= @list_id %>/list/delete/<%= i.id %>">Delete</a></td>
+          <% @viewable_cols.each do |col| %>
+            <th><%= col %></th>
+          <% end %>
         </tr>
-        <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @myitems.each do |i| %>
+          <tr>
+            <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
+            <td width="100"><%= i.quantity %></td>
+            <td>Example</td>
+            <td><a href="/mylists/<%= @selected_list.id %>/list/delete/<%= i.id %>">Delete</a></td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="padding_bottom">
+      <p>There are currently no items on this list. Add one below to get started!</p>
+    </div>
+  <% end %>
+
 
   <!-- Add a form to allow users to add new items -->
   <h4>Add a new item to your list:</h4>
-  <form action="/mylists/<%= @list_id %>/list/add">
+  <form action="/mylists/<%= @selected_list.id %>/list/add">
   <div class="form-group">
     <label for="description">Description</label>
     <input name = "description" type="text" class="form-control" id="description" placeholder="Red sweater">
@@ -46,16 +52,5 @@
 </form>
 
 
-<!--   # create_table "items", force: true do |t|
-  #   t.string   "description"
-  #   t.integer  "quantity"
-  #   t.text     "comments"
-  #   t.string   "url"
-  #   t.integer  "quantity_purchased"
-  #   t.datetime "date_deleted"
-  #   t.text     "reason_deleted"
-  #   t.integer  "list_id"
-  #   t.datetime "created_at"
-  #   t.datetime "updated_at"
-  # end -->
+
 

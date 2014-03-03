@@ -1,0 +1,33 @@
+  <div class="jumbotron">
+    <div class="h2_update">You are viewing: <%= @selected_list.listname %></div>
+  </div>
+
+  <% if @shared_items.present? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <% @viewable_cols.each do |col| %>
+            <th><%= col %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shared_items.each do |i| %>
+          <tr>
+            <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
+            <td><%= i.requesttype_id %></td>
+            <td width="100"><%= i.quantity %></td>
+            <td width="100"><%= i.quantity - i.quantity_purchased %></td>
+            <form action="/mylists">
+            <td width="80"><input class="form-control" name = "q_claimed" type="integer" placeholder="1"></td>
+            <td width="80"><button class="btn btn-sm btn-primary btn-block" type="submit">Claim</button></td>
+            </form>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="padding_bottom">
+      <p>There are currently no items on this list</p>
+    </div>
+  <% end %>

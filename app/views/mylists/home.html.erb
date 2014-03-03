@@ -29,7 +29,27 @@
         </table>
       </div>
       <h4>Lists shared with you...</h4>
+      <div class="padding_bottom">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>List Name</th>
+              <th>Event Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @lists_shared_with_me.each do |sharedlist| %>
+              <tr>
+                <td><a href="/sharedlists/<%= sharedlist.id %>/list"><%= sharedlist.listname %></a></td>
+                <td><%= sharedlist.eventdate.strftime("%B %d, %Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>   <!-- This ends the table column -->
+
+
 
     <div class="col-md-6">
       <h4>Create a new list:</h4>

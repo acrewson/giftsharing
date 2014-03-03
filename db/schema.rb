@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140302220537) do
+ActiveRecord::Schema.define(version: 20140303032018) do
 
   create_table "items", force: true do |t|
     t.string   "description"
@@ -24,8 +24,9 @@ ActiveRecord::Schema.define(version: 20140302220537) do
     t.integer  "deprecated"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "request_type"
+    t.integer  "deprecated2"
     t.integer  "list_id"
+    t.integer  "requesttype_id"
   end
 
   create_table "lists", force: true do |t|
@@ -67,6 +68,12 @@ ActiveRecord::Schema.define(version: 20140302220537) do
 
   create_table "relationtypes", force: true do |t|
     t.string   "relation_type_desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "request_types", force: true do |t|
+    t.string   "request_type_description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
