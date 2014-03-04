@@ -11,34 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303032018) do
+ActiveRecord::Schema.define(version: 20140303025743) do
 
   create_table "items", force: true do |t|
     t.string   "description"
-    t.integer  "quantity"
+    t.integer  "quantity_requested"
     t.text     "comments"
     t.string   "url"
     t.integer  "quantity_purchased"
     t.datetime "date_deleted"
     t.text     "reason_deleted"
-    t.integer  "deprecated"
+    t.integer  "list_id"
+    t.integer  "request_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "deprecated2"
-    t.integer  "list_id"
-    t.integer  "requesttype_id"
   end
 
   create_table "lists", force: true do |t|
     t.string   "listname"
-    t.integer  "deprecated2"
+    t.integer  "listtype_id"
     t.date     "eventdate"
-    t.integer  "deprecated"
+    t.integer  "user_id"
     t.datetime "datedeleted"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "listtype_id"
   end
 
   create_table "listtypes", force: true do |t|
@@ -48,20 +44,18 @@ ActiveRecord::Schema.define(version: 20140303032018) do
   end
 
   create_table "purchases", force: true do |t|
-    t.integer  "deprecated"
-    t.integer  "deprecated2"
+    t.integer  "item_id"
+    t.integer  "user_id"
     t.datetime "date_purchased"
     t.integer  "quantity_purchased"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "item_id"
-    t.integer  "user_id"
   end
 
   create_table "relationships", force: true do |t|
-    t.integer  "deprecated"
+    t.integer  "user_id"
     t.integer  "shared_user_id"
-    t.integer  "relation_type_id"
+    t.integer  "relationtype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -79,17 +73,15 @@ ActiveRecord::Schema.define(version: 20140303032018) do
   end
 
   create_table "shared_lists", force: true do |t|
-    t.integer  "deprecated"
-    t.integer  "deprecated2"
+    t.integer  "list_id"
+    t.integer  "user_id"
     t.datetime "shared_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "list_id"
-    t.integer  "user_id"
   end
 
   create_table "states", force: true do |t|
-    t.string   "state"
+    t.string   "state_abbrev"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

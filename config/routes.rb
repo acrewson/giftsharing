@@ -19,7 +19,7 @@ Giftsharing::Application.routes.draw do
 
   # Shared Lists
   get  "/sharedlists/:list_id/list" => "sharedlists#listContents"
-
+  get  "/sharedlists/:list_id/item/:item_id" => "sharedlists#claim_item"
 
 
 # To Do List
@@ -31,10 +31,13 @@ Giftsharing::Application.routes.draw do
   # Create way for user to share lists
   # The remember me button doesn't do anything when logging in
   # Add a "my profile" page.
+  # Instead of using quantity_purchased from items table, sum up from purchases table
 
 # Cosmetics
   # Figure out how to specify table column widths (quantity can be smaller)
   # Create a home page
+  # Figure out how to center text in rows
+  # Highlight row when hovering over it?
 
 # Robustness
   # Add a bunch of logic/checks to make sure users don't abuse URL structure
