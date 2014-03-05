@@ -44,6 +44,39 @@ u = [
     :zip => 23456,
     :email => "test3@email.com",
     :password => "password",
+  },
+  {
+    :firstname => "DJ",
+    :lastname => "Kelly",
+    :birthdate => "03/09/1980",
+    :address => "1000 Westcroft Dr.",
+    :city => "Toledo",
+    :state_id => State.find_by(state_abbrev: "OH").id,
+    :zip => 43560,
+    :email => "test4@email.com",
+    :password => "password",
+  },
+  {
+    :firstname => "David",
+    :lastname => "Chung",
+    :birthdate => "02/03/1965",
+    :address => "2100 Lee Hwy",
+    :city => "Arlington",
+    :state_id => State.find_by(state_abbrev: "VA").id,
+    :zip => 22209,
+    :email => "test5@email.com",
+    :password => "password",
+  },
+  {
+    :firstname => "Jon",
+    :lastname => "Scheyer",
+    :birthdate => "06/09/1987",
+    :address => "1000 McQueen Dr",
+    :city => "Durham",
+    :state_id => State.find_by(state_abbrev: "NC").id,
+    :zip => 22209,
+    :email => "test6@email.com",
+    :password => "password",
   }
 ]
 
@@ -76,22 +109,6 @@ q.each do |listtypeName|
     p.listtype = listtypeName
     p.save
 end
-
-
-
-
-
-
-Relationtype.destroy_all
-
-q = ["Husband","Wife","Brother","Sister","Friend","Mother","Father","Mother-in-law","Father-in-law","Daughter","Son","Son-in-law","Daughter-in-law","Brother-in-law","Sister-in-law","Grandson","Granddaughter","Grandmother", "Grandfather", "Aunt", "Uncle", "Niece", "Nephew"].sort
-q.push("Other")
-q.each do |r|
-    p = Relationtype.new
-    p.relation_type_desc = r
-    p.save
-end
-
 
 
 
@@ -256,6 +273,76 @@ i.each do |item|
   it.list_id = item[:list_id]
   it.save
 end
+
+
+
+ConnectionType.destroy_all
+
+q = ["Husband","Wife","Brother","Sister","Friend","Mother","Father","Mother-in-law","Father-in-law","Daughter","Son","Son-in-law","Daughter-in-law","Brother-in-law","Sister-in-law","Grandson","Granddaughter","Grandmother", "Grandfather", "Aunt", "Uncle", "Niece", "Nephew"].sort
+q.push("Other")
+q.each do |r|
+    p = ConnectionType.new
+    p.connection_description = r
+    p.save
+end
+
+
+Connection.destroy_all
+
+c = [
+  {
+    :user_id => User.find_by(email: "test@email.com").id,
+    :connected_user_id => User.find_by(email: "test2@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
+  },
+  {
+    :user_id => User.find_by(email: "test@email.com").id,
+    :connected_user_id => User.find_by(email: "test3@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Brother-in-law").id,
+  },
+  {
+    :user_id => User.find_by(email: "test2@email.com").id,
+    :connected_user_id => User.find_by(email: "test@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
+  }
+]
+
+c.each do |connec|
+  co = Connection.new
+  co.user_id = connec[:user_id]
+  co.connected_user_id = connec[:connected_user_id]
+  co.connection_type_id = connec[:connection_type_id]
+  co.save
+end
+
+
+ConnectionRequest.destroy_all
+
+cr =
+[
+  {
+    :user_id => User.find_by(email: "test4@email.com").id,
+    :requested_user_id => User.find_by(email: "test@email.com").id,
+    :request_date => "03/04/2014",
+  },
+  {
+    :user_id => User.find_by(email: "test5@email.com").id,
+    :requested_user_id => User.find_by(email: "test@email.com").id,
+    :request_date => "03/05/2014",
+  }
+]
+
+cr.each do |request|
+  r = ConnectionRequest.new
+  r.user_id = request[:user_id]
+  r.requested_user_id = request[:requested_user_id]
+  r.request_date = Date.strptime(request[:request_date], "%m/%d/%Y")
+  r.save
+end
+
+
+
+
 
 
 

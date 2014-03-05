@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303025743) do
+ActiveRecord::Schema.define(version: 20140305142916) do
+
+  create_table "connection_requests", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "requested_user_id"
+    t.datetime "request_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "connection_types", force: true do |t|
+    t.string   "connection_description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "connections", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "connected_user_id"
+    t.integer  "connection_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "items", force: true do |t|
     t.string   "description"
@@ -48,20 +70,6 @@ ActiveRecord::Schema.define(version: 20140303025743) do
     t.integer  "user_id"
     t.datetime "date_purchased"
     t.integer  "quantity_purchased"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "relationships", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "shared_user_id"
-    t.integer  "relationtype_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "relationtypes", force: true do |t|
-    t.string   "relation_type_desc"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -22,6 +22,10 @@ Giftsharing::Application.routes.draw do
   get  "/sharedlists/:list_id/item/:item_id" => "sharedlists#claim_item"
 
 
+  # Connections
+  get  "/connections"  => "connections#home"
+
+
 # To Do List
 
 # Functionality
@@ -42,10 +46,11 @@ Giftsharing::Application.routes.draw do
 # Robustness
   # Add a bunch of logic/checks to make sure users don't abuse URL structure
   # URLs only work when user puts full path. Support www. entries
+  # Add database constraints to the tables
 
+# Security
+  # Go through everything and make sure URL paths can't be exploited
+  # Learn about SQL injection and review everything
 
-# Questions
-  # How do I update in batch on the backend?
-    # Chain the update_all after your where clause
 
 end
