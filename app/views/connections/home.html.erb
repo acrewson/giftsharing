@@ -28,9 +28,64 @@
     <div class="col-md-6">
       <div class="padding_bottom">
         <h4>Pending Invitations...</h4>
+        <div class="padding_bottom">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Relation</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @my_pending_connections.each do |connection| %>
+                <tr>
+                  <td><%= connection.firstname + " " + connection.lastname %></td>
+                  <form action="">
+                  <td>
+                    <select name="connection_type">
+                      <% ConnectionType.all.each do |ct|  %>
+                        <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                      <% end %>
+                    </select>
+                  </td>
+                  <td><button class="btn btn-sm btn-success btn-block" type="submit">Accept</button></td>
+                  <td><button class="btn btn-sm btn-danger btn-block" type="submit">Decline</button></td>
+                  </form>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
       </div>
       <div class="padding_bottom">
         <h4>Invite more people to connect!</h4>
+          <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Email Address</th>
+              <th>Relation</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td><input name = "request_email" type="text" class="form-control" placeholder="john.doe@gmail.com"></td>
+                <form action="">
+                <td>
+                  <select name="connection_type">
+                    <% ConnectionType.all.each do |ct|  %>
+                      <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% end %>
+                  </select>
+                </td>
+                <td><button class="btn btn-sm btn-success btn-block" type="submit">Send Request</button></td>
+                </form>
+              </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
