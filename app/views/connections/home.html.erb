@@ -1,5 +1,5 @@
   <div class="jumbotron">
-    <div class="h2_update">Welcome, <%= @current_user.firstname %>! Here are your connections.</div>
+    <div class="h2_update">Here are your connections</div>
   </div>
 
 
@@ -42,7 +42,7 @@
               <% @my_pending_connections.each do |connection| %>
                 <tr>
                   <td><%= connection.firstname + " " + connection.lastname %></td>
-                  <form action="">
+                  <form action="/connections/response/<%= connection.id %>">
                   <td>
                     <select name="connection_type">
                       <% ConnectionType.all.each do |ct|  %>
@@ -50,8 +50,8 @@
                       <% end %>
                     </select>
                   </td>
-                  <td><button class="btn btn-sm btn-success btn-block" type="submit">Accept</button></td>
-                  <td><button class="btn btn-sm btn-danger btn-block" type="submit">Decline</button></td>
+                  <td><button class="btn btn-sm btn-success btn-block" type="submit" name="connec_response" value="Accept">Accept</button></td>
+                  <td><button class="btn btn-sm btn-danger btn-block" type="submit" name="connec_response" value="Decline">Decline</button></td>
                   </form>
                 </tr>
               <% end %>
@@ -72,8 +72,8 @@
           </thead>
           <tbody>
               <tr>
+                <form action="/connections/send_request">
                 <td><input name = "request_email" type="text" class="form-control" placeholder="john.doe@gmail.com"></td>
-                <form action="">
                 <td>
                   <select name="connection_type">
                     <% ConnectionType.all.each do |ct|  %>

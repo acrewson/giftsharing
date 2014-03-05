@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20140305142916) do
   create_table "connection_requests", force: true do |t|
     t.integer  "user_id"
     t.integer  "requested_user_id"
+    t.integer  "connection_type_id"
     t.datetime "request_date"
     t.datetime "created_at"
     t.datetime "updated_at"

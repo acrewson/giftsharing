@@ -1,4 +1,4 @@
-require 'Date'
+require 'Time'
 
 
 State.destroy_all
@@ -324,11 +324,13 @@ cr =
     :user_id => User.find_by(email: "test4@email.com").id,
     :requested_user_id => User.find_by(email: "test@email.com").id,
     :request_date => "03/04/2014",
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
   },
   {
     :user_id => User.find_by(email: "test5@email.com").id,
     :requested_user_id => User.find_by(email: "test@email.com").id,
     :request_date => "03/05/2014",
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
   }
 ]
 
@@ -337,6 +339,7 @@ cr.each do |request|
   r.user_id = request[:user_id]
   r.requested_user_id = request[:requested_user_id]
   r.request_date = Date.strptime(request[:request_date], "%m/%d/%Y")
+  r.connection_type_id = request[:connection_type_id]
   r.save
 end
 
