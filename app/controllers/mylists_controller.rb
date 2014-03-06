@@ -96,7 +96,7 @@ class MylistsController < ApplicationController
     i.list_id = params[:list_id]
     i.save
 
-    redirect_to "/mylists/" + params[:list_id] + "/list"
+    redirect_to "/mylists/#{params[:list_id]}/contents"
   end
 
 
@@ -105,8 +105,49 @@ class MylistsController < ApplicationController
     i.date_deleted = Time.now
     i.save
 
-    redirect_to "/mylists/" + params[:list_id] + "/list"
+    redirect_to "/mylists/#{params[:list_id]}/contents"
   end
+
+
+
+  def list_access_remove
+
+    # Come back and add security
+
+    # For each key that starts in remove, remove the access for that person
+    params.keys.each do |q|
+      if q[0,6] == "remove"
+        SharedList.find_by(:list_id => params[:list_id], :user_id => q[6,q.length - 6].to_i).destroy
+      end
+    end
+
+    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Person removed"
+
+  end
+
+
+  def list_access_add
+
+    # Come back and add security
+
+    # For each key that starts in remove, remove the access for that person
+    params.keys.each do |q|
+      if q[0,3] == "add"
+        z = SharedList.new
+        z.list_id = params[:list_id]
+        z.user_id = q[3,q.length - 3].to_i
+        z.shared_date = Time.now
+        z.save
+
+      end
+    end
+
+    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Person added"
+
+
+
+  end
+
 
 
 end

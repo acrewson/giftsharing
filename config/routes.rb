@@ -11,11 +11,13 @@ Giftsharing::Application.routes.draw do
   get  "/mylists" => "mylists#home"
   get  "/mylists/create" => "mylists#list_create"
   get  "/mylists/:list_id/delete" => "mylists#list_destroy"
+  get  "/mylists/:list_id/list_access/remove" => "mylists#list_access_remove"
+  get  "/mylists/:list_id/list_access/add" => "mylists#list_access_add"
 
   # Dealing with items on my lists
-  get  "/mylists/:list_id/list" => "mylists#listContents"
-  get  "/mylists/:list_id/list/add" => "mylists#item_add"
-  get  "/mylists/:list_id/list/delete/:item_id" => "mylists#item_delete"
+  get  "/mylists/:list_id/contents" => "mylists#listContents"
+  get  "/mylists/:list_id/contents/add" => "mylists#item_add"
+  get  "/mylists/:list_id/contents/delete/:item_id" => "mylists#item_delete"
 
   # Shared Lists
   get  "/sharedlists/:list_id/list" => "sharedlists#listContents"

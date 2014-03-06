@@ -20,7 +20,7 @@
           <tbody>
             <% @mylists.each do |mylist| %>
               <tr>
-                <td><a href="/mylists/<%= mylist.id %>/list"><%= mylist.listname %></a></td>
+                <td><a href="/mylists/<%= mylist.id %>/contents"><%= mylist.listname %></a></td>
                 <td><%= mylist.eventdate.strftime("%B %d, %Y") %></td>
                 <td><a href="/mylists/<%= mylist.id %>/delete">Delete</a></td>
               </tr>
