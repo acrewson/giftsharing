@@ -9,6 +9,18 @@ State.destroy_all
     s.save
 end
 
+
+
+Gender.destroy_all
+
+["Male", "Female"].each do |g|
+  gd = Gender.new
+  gd.gender_name = g
+  gd.save
+end
+
+
+
 User.destroy_all
 
 u = [
@@ -19,9 +31,10 @@ u = [
     :address => "1000 Main St Apt 1",
     :city => "Evanston",
     :state_id => State.find_by(state_abbrev: "IL").id,
-    :zip => 60201,
+    :zip => "60201",
     :email => "test@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
     :firstname => "Jordan",
@@ -30,9 +43,10 @@ u = [
     :address => "1000 Maple St Apt 9",
     :city => "Cambridge",
     :state_id => State.find_by(state_abbrev: "MA").id,
-    :zip => 12345,
+    :zip => "12345",
     :email => "test2@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
     :firstname => "Steve",
@@ -41,9 +55,10 @@ u = [
     :address => "1000 Peach St Apt 1",
     :city => "Atlanta",
     :state_id => State.find_by(state_abbrev: "GA").id,
-    :zip => 23456,
+    :zip => "23456",
     :email => "test3@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
     :firstname => "DJ",
@@ -52,9 +67,10 @@ u = [
     :address => "1000 Westcroft Dr.",
     :city => "Toledo",
     :state_id => State.find_by(state_abbrev: "OH").id,
-    :zip => 43560,
+    :zip => "43560",
     :email => "test4@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
     :firstname => "David",
@@ -63,9 +79,10 @@ u = [
     :address => "2100 Lee Hwy",
     :city => "Arlington",
     :state_id => State.find_by(state_abbrev: "VA").id,
-    :zip => 22209,
+    :zip => "22209",
     :email => "test5@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
     :firstname => "Jon",
@@ -74,9 +91,34 @@ u = [
     :address => "1000 McQueen Dr",
     :city => "Durham",
     :state_id => State.find_by(state_abbrev: "NC").id,
-    :zip => 22209,
+    :zip => "22209",
     :email => "test6@email.com",
     :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
+  },
+  {
+    :firstname => "Kyle",
+    :lastname => "Singler",
+    :birthdate => "06/23/1987",
+    :address => "2222 Main St.",
+    :city => "Portland",
+    :state_id => State.find_by(state_abbrev: "OR").id,
+    :zip => "45678",
+    :email => "test7@email.com",
+    :password => "password",
+    :gender => Gender.find_by(:gender_name => "Male"),
+  },
+  {
+    :firstname => "Julia",
+    :lastname => "Crewson",
+    :birthdate => "09/24/1984",
+    :address => "2222 Main St.",
+    :city => "Evanston",
+    :state_id => State.find_by(state_abbrev: "IL").id,
+    :zip => "60201",
+    :email => "julia@email.com",
+    :password => "password",
+    :gender => Gender.find_by(:gender_name => "Female"),
   }
 ]
 
@@ -92,6 +134,7 @@ u.each do |user|
   a.zip = user[:zip]
   a.email = user[:email]
   a.password = user[:password]
+  a.gender = user[:gender]
   a.save
 end
 
@@ -278,6 +321,7 @@ end
 
 ConnectionType.destroy_all
 
+# First populate the "primary" relationships
 q = ["Husband","Wife","Brother","Sister","Friend","Mother","Father","Mother-in-law","Father-in-law","Daughter","Son","Son-in-law","Daughter-in-law","Brother-in-law","Sister-in-law","Grandson","Granddaughter","Grandmother", "Grandfather", "Aunt", "Uncle", "Niece", "Nephew"].sort
 q.push("Other")
 q.each do |r|
@@ -286,10 +330,168 @@ q.each do |r|
     p.save
 end
 
+# Now go back and figure out the inverse (for smart population)
+ir = [
+  {
+    :connection_description => "Husband",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Husband").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Wife").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Wife").id,
+  },
+  {
+    :connection_description => "Wife",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Husband").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Wife").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Husband").id,
+  },
+  {
+    :connection_description => "Brother",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Brother").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Sister").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Brother").id,
+  },
+  {
+    :connection_description => "Sister",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Brother").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Sister").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Brother").id,
+  },
+  {
+    :connection_description => "Friend",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Friend").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Friend").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Friend").id,
+  },
+  {
+    :connection_description => "Mother",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Son").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Daughter").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Son").id,
+  },
+  {
+    :connection_description => "Father",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Son").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Daughter").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Son").id,
+  },
+  {
+    :connection_description => "Mother-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Son-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Daughter-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Son-in-law").id,
+  },
+  {
+    :connection_description => "Father-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Son-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Daughter-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Son-in-law").id,
+  },
+  {
+    :connection_description => "Daughter",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Father").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Mother").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Father").id,
+  },
+  {
+    :connection_description => "Son",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Father").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Mother").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Father").id,
+  },
+  {
+    :connection_description => "Son-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Father-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Mother-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Father-in-law").id,
+  },
+  {
+    :connection_description => "Daughter-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Father-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Mother-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Father-in-law").id,
+  },
+  {
+    :connection_description => "Brother-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Brother-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Sister-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Brother-in-law").id,
+  },
+  {
+    :connection_description => "Sister-in-law",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Brother-in-law").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Sister-in-law").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Brother-in-law").id,
+  },
+  {
+    :connection_description => "Grandson",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Grandfather").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Grandmother").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Grandfather").id,
+  },
+  {
+    :connection_description => "Granddaughter",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Grandfather").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Grandmother").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Grandfather").id,
+  },
+  {
+    :connection_description => "Grandmother",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Grandson").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Granddaughter").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Grandson").id,
+  },
+  {
+    :connection_description => "Grandfather",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Grandson").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Granddaughter").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Grandson").id,
+  },
+  {
+    :connection_description => "Aunt",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Nephew").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Niece").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Nephew").id,
+  },
+  {
+    :connection_description => "Uncle",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Nephew").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Niece").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Nephew").id,
+  },
+  {
+    :connection_description => "Niece",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Uncle").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Aunt").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Uncle").id,
+  },
+  {
+    :connection_description => "Nephew",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Uncle").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Aunt").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Uncle").id,
+  },
+  {
+    :connection_description => "Other",
+    :inverse_male_connection_id => ConnectionType.find_by(:connection_description => "Other").id,
+    :inverse_female_connection_id => ConnectionType.find_by(:connection_description => "Other").id,
+    :inverse_unknown_connection_id => ConnectionType.find_by(:connection_description => "Other").id,
+  },
+]
+
+ir.each do |r|
+    p = ConnectionType.find_by(:connection_description => r[:connection_description])
+    p.inverse_male_connection_id = r[:inverse_male_connection_id]
+    p.inverse_female_connection_id = r[:inverse_female_connection_id]
+    p.inverse_unknown_connection_id = r[:inverse_unknown_connection_id]
+    p.save
+end
+
+
 
 Connection.destroy_all
 
 c = [
+  # Primary Relationships
   {
     :user_id => User.find_by(email: "test@email.com").id,
     :connected_user_id => User.find_by(email: "test2@email.com").id,
@@ -301,7 +503,24 @@ c = [
     :connection_type_id => ConnectionType.find_by(connection_description: "Brother-in-law").id,
   },
   {
+    :user_id => User.find_by(email: "test@email.com").id,
+    :connected_user_id => User.find_by(email: "test7@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
+  },
+
+  # Inverse Relationships
+  {
     :user_id => User.find_by(email: "test2@email.com").id,
+    :connected_user_id => User.find_by(email: "test@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
+  },
+  {
+    :user_id => User.find_by(email: "test3@email.com").id,
+    :connected_user_id => User.find_by(email: "test@email.com").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Brother-in-law").id,
+  },
+  {
+    :user_id => User.find_by(email: "test7@email.com").id,
     :connected_user_id => User.find_by(email: "test@email.com").id,
     :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
   }
@@ -330,7 +549,7 @@ cr =
     :user_id => User.find_by(email: "test5@email.com").id,
     :requested_user_id => User.find_by(email: "test@email.com").id,
     :request_date => "03/05/2014",
-    :connection_type_id => ConnectionType.find_by(connection_description: "Friend").id,
+    :connection_type_id => ConnectionType.find_by(connection_description: "Uncle").id,
   }
 ]
 

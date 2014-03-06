@@ -59,8 +59,6 @@ class MylistsController < ApplicationController
 
       @myitems = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
 
-      @viewable_cols = ["Item Requested", "Quantity Requested", "Request Type", ""]
-
       # Sharing with others
       @shared_users = User.joins(:shared_lists).where("shared_lists.list_id = ?", @selected_list.id)
 
@@ -90,10 +88,11 @@ class MylistsController < ApplicationController
     #Save the user inputted information to the list
     i = Item.new
     i.description = params[:description]
-    i.quantity = params[:quantity]
+    i.quantity_requested = params[:quantity]
     i.comments = params[:comments]
     i.url = params[:url]
     i.list_id = params[:list_id]
+    i.request_type_id = params[:requst_type]
     i.save
 
     redirect_to "/mylists/#{params[:list_id]}/contents"

@@ -53,7 +53,7 @@ def claim_item
 
 
     # redirect_to the list
-    redirect_to "/sharedlists/" + params[:list_id] + "/list", notice: "Your have claimed the item!"
+    redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Your have claimed the item!"
 end
 
 

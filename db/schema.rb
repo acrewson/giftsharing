@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140305142916) do
+ActiveRecord::Schema.define(version: 20140306172301) do
 
   create_table "connection_requests", force: true do |t|
     t.integer  "user_id"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20140305142916) do
 
   create_table "connection_types", force: true do |t|
     t.string   "connection_description"
+    t.integer  "inverse_male_connection_id"
+    t.integer  "inverse_female_connection_id"
+    t.integer  "inverse_unknown_connection_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -32,6 +35,12 @@ ActiveRecord::Schema.define(version: 20140305142916) do
     t.integer  "user_id"
     t.integer  "connected_user_id"
     t.integer  "connection_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "genders", force: true do |t|
+    t.string   "gender_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -102,9 +111,10 @@ ActiveRecord::Schema.define(version: 20140305142916) do
     t.string   "address"
     t.string   "city"
     t.integer  "state_id"
-    t.integer  "zip"
+    t.string   "zip"
     t.string   "email"
     t.string   "password"
+    t.integer  "gender_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

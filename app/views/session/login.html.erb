@@ -1,14 +1,40 @@
 
 
-<div class="container">
-  <form class="form-signin" role="form" action="/login/authenticate">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
-    <input name="pwd" type="password" class="form-control" placeholder="Password" required>
-    <label class="checkbox">
-      <input name="remember_login" type="checkbox" value="remember_me"> Remember me
-    </label>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  </form>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-4">
+    <form class="form-signin" role="form" action="/login/authenticate">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <div class="padding_bottom_10">
+        <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+      </div>
+      <div>
+        <input name="pwd" type="password" class="form-control" placeholder="Password" required>
+      </div>
+      <label class="checkbox">
+        <input name="remember_login" type="checkbox" value="remember_me"> Remember me
+      </label>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </div>
 
+  <div class="col-md-2"></div>
+
+  <div class="col-md-4">
+    <form class="form-signin" role="form" action="/signup">
+      <h2 class="form-signin-heading">Create an account!</h2>
+      <div class="padding_bottom_10">
+        <input name="firstname" type="text" class="form-control" placeholder="First name" required>
+      </div>
+      <div class="padding_bottom_10">
+        <input name="lastname" type="text" class="form-control" placeholder="Last name" required>
+      </div>
+      <div class="padding_bottom_10">
+        <input name="email" type="text" class="form-control" placeholder="Email address" required>
+      </div>
+      <input name="pwd" type="password" class="form-control" placeholder="Password" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    </form>
+  </div>
+  <div class="col-md-1"></div>
 </div> <!-- /container -->

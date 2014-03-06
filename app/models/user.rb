@@ -4,4 +4,5 @@ class User < ActiveRecord::Base
   has_many :shared_lists
   has_many :connections
   has_many :connection_requests
+  belongs_to :gender
 end

@@ -41,17 +41,26 @@
             <tbody>
               <% @my_pending_connections.each do |connection| %>
                 <tr>
-                  <td><%= connection.firstname + " " + connection.lastname %></td>
+                  <td style="vertical-align: middle;"><%= connection.firstname + " " + connection.lastname %></td>
                   <form action="/connections/response/<%= connection.id %>">
-                  <td>
+                  <td style="vertical-align: middle;">
                     <select name="connection_type">
                       <% ConnectionType.all.each do |ct|  %>
-                        <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                        <% if connection.connection_requests.first.connection_type.inverse_male_connection_id == ct.id and connection.gender.gender_name == "Male"%>
+                            <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                        <% elsif connection.connection_requests.first.connection_type.inverse_female_connection_id == ct.id and connection.gender.gender_name == "Female"%>
+                            <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                        <% elsif connection.connection_requests.first.connection_type.inverse_unknown_connection_id == ct.id and connection.gender_id.nil?%>
+                            <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                        <% else%>
+                          <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                        <% end %>
                       <% end %>
                     </select>
                   </td>
-                  <td><button class="btn btn-sm btn-success btn-block" type="submit" name="connec_response" value="Accept">Accept</button></td>
-                  <td><button class="btn btn-sm btn-danger btn-block" type="submit" name="connec_response" value="Decline">Decline</button></td>
+                  <td style="vertical-align: middle;"><button class="btn btn-sm btn-success btn-block" type="submit" name="connec_response" value="Accept">Accept</button></td>
+
+                  <td style="vertical-align: middle;"><button class="btn btn-sm btn-danger btn-block" type="submit" name="connec_response" value="Decline">Decline</button></td>
                   </form>
                 </tr>
               <% end %>
@@ -73,15 +82,15 @@
           <tbody>
               <tr>
                 <form action="/connections/send_request">
-                <td><input name = "request_email" type="text" class="form-control" placeholder="john.doe@gmail.com"></td>
-                <td>
+                <td style="vertical-align: middle;"><input name = "request_email" type="text" class="form-control" placeholder="john.doe@gmail.com"></td>
+                <td style="vertical-align: middle;">
                   <select name="connection_type">
                     <% ConnectionType.all.each do |ct|  %>
                       <option value="<%= ct.id %>"><%= ct.connection_description %></option>
                     <% end %>
                   </select>
                 </td>
-                <td><button class="btn btn-sm btn-success btn-block" type="submit">Send Request</button></td>
+                <td style="vertical-align: middle;"><button class="btn btn-sm btn-success btn-block" type="submit">Send Request</button></td>
                 </form>
               </tr>
           </tbody>
