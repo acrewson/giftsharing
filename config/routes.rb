@@ -53,6 +53,7 @@ Giftsharing::Application.routes.draw do
   # Go back and use #{} instead of adding strings
   # Go through HTML and use ruby tags instead where possible
   # Organize around CRUD framework - fill holes as needed
+  # Plug in smart defaults for relation in the pending list, based on what counter-party said
 
 # Security
   # Go through everything and make sure URL paths can't be exploited

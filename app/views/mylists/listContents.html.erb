@@ -2,55 +2,103 @@
     <div class="h2_update"><%= @selected_list.listname %></div>
   </div>
 
-  <% if @myitems.present? %>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <% @viewable_cols.each do |col| %>
-            <th><%= col %></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @myitems.each do |i| %>
-          <tr>
-            <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
-            <td width="100"><%= i.quantity_requested %></td>
-            <td><%= i.request_type.request_type_description %></td>
-            <td><a href="/mylists/<%= @selected_list.id %>/list/delete/<%= i.id %>">Delete</a></td>
-          </tr>
-          <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <div class="padding_bottom">
-      <p>There are currently no items on this list. Add one below to get started!</p>
+  <div class = "row">
+    <div class="col-md-9">
+      <% if @myitems.present? %>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <% @viewable_cols.each do |col| %>
+                <th><%= col %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @myitems.each do |i| %>
+              <tr>
+                <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
+                <td width="100"><%= i.quantity_requested %></td>
+                <td><%= i.request_type.request_type_description %></td>
+                <td><a href="/mylists/<%= @selected_list.id %>/list/delete/<%= i.id %>">Delete</a></td>
+              </tr>
+              <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="padding_bottom">
+          <p>There are currently no items on this list. Add one below to get started!</p>
+        </div>
+      <% end %>
+
+
+      <!-- Add a form to allow users to add new items -->
+      <h4>Add a new item to your list:</h4>
+      <form action="/mylists/<%= @selected_list.id %>/list/add">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input name = "description" type="text" class="form-control" id="description" placeholder="Red sweater">
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity Requested</label>
+        <input name = "quantity" type="text" class="form-control" id="quantity" placeholder="1">
+      </div>
+      <div class="form-group">
+        <label for="url">Web Address of Item</label>
+        <input name = "url" type="text" class="form-control" id="url" placeholder="Copy link to item here...">
+      </div>
+      <div class="form-group">
+        <label for="comments">Additional Details</label>
+        <textarea name = "comments" type="text" class="form-control" id="comments" placeholder="Enter additional information about your item here. E.g. Why you want it, what you'll use it for, etc."></textarea>
+      </div>
+      <input type="submit" class="btn btn-lg btn-success" value="Add item!">
+      </form>
     </div>
-  <% end %>
+    <div class="col-md-3">
+      <div class="row">
+        <div class="panel panel-primary margin_bottom_50">
+          <div class="panel-heading">
+            <h4 class="panel-title">This list is shared with:</h4>
+          </div>
+          <div class="panel-body">
+            <table>
+              <thead>
+              </thead>
+              <tbody>
+                <% @shared_users.each do |shared_user| %>
+                <tr>
+                  <td><%= shared_user.firstname + " " + shared_user.lastname %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title">Share this list with others:</h4>
+          </div>
+          <div class="panel-body">
+            <table>
+              <thead>
+              </thead>
+              <tbody>
+                <% @potential_users.each do |potential_share| %>
+                <tr>
+                <td>
+                  <span class="padding_right_20"><input type="checkbox"></span>
+                  <%= potential_share.firstname + " " + potential_share.lastname %>
+                </td>
 
-
-  <!-- Add a form to allow users to add new items -->
-  <h4>Add a new item to your list:</h4>
-  <form action="/mylists/<%= @selected_list.id %>/list/add">
-  <div class="form-group">
-    <label for="description">Description</label>
-    <input name = "description" type="text" class="form-control" id="description" placeholder="Red sweater">
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="quantity">Quantity Requested</label>
-    <input name = "quantity" type="text" class="form-control" id="quantity" placeholder="1">
-  </div>
-  <div class="form-group">
-    <label for="url">Web Address of Item</label>
-    <input name = "url" type="text" class="form-control" id="url" placeholder="Copy link to item here...">
-  </div>
-  <div class="form-group">
-    <label for="comments">Additional Details</label>
-    <textarea name = "comments" type="text" class="form-control" id="comments" placeholder="Enter additional information about your item here. E.g. Why you want it, what you'll use it for, etc."></textarea>
-  </div>
-  <input type="submit" class="btn btn-lg btn-success" value="Add item!">
-</form>
-
-
 
 

@@ -60,6 +60,22 @@ class MylistsController < ApplicationController
       @myitems = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
 
       @viewable_cols = ["Item Requested", "Quantity Requested", "Request Type", ""]
+
+      # Sharing with others
+      @shared_users = User.joins(:shared_lists).where("shared_lists.list_id = ?", @selected_list.id)
+
+      @potential_users = User.select("cu.*").joins("
+                JOIN connections as c
+                  ON users.id = c.user_id
+                  AND c.user_id = #{current_user.id}
+                JOIN users as cu
+                  ON c.connected_user_id = cu.id
+                LEFT OUTER JOIN shared_lists as sl
+                  ON c.connected_user_id = sl.user_id
+                  AND sl.list_id = #{@selected_list.id}")
+        .where("sl.list_id is ?", nil)
+
+
     elsif current_user.present? && current_user.id != @selected_list.user_id
       redirect_to "/mylists", notice: "You do not have access to view that page."
     else
