@@ -18,9 +18,7 @@ def listContents
 
     @claimed_items_by_user = Purchase.joins(:item).where("purchases.user_id = ? and items.date_deleted is ?", current_user.id, nil)
 
-    @viewable_cols = ["Item Requested", "Request Type", "Quantity Requested", "Quantity Needed", "Claim this item!"]
 
-    @viewable_cols_purchases = ["Item Requested", "Quantity Claimed", "Date Claimed", ""]
 
     end
 
@@ -28,10 +26,6 @@ end
 
 
 def claim_item
-    # Update the quantity_purchased column in the Item table
-    z = Item.find_by(id: params[:item_id])
-    z.quantity_purchased = z.quantity_purchased + params[:q_claimed].to_i
-    z.save
 
     # Update the Purchases table
     if Purchase.find_by("item_id = ? AND user_id = ?", params[:item_id], session[:user_id]).present?
@@ -48,15 +42,20 @@ def claim_item
         p.save
     end
 
-
-
-
-
     # redirect_to the list
     redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Your have claimed the item!"
 end
 
 
+
+def unclaim_item
+    # Go back and add validation here...
+
+    Purchase.find_by(:item_id => params[:item_id], :user_id => session[:user_id]).destroy
+
+    redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Your have released the item!"
+
+end
 
 
 

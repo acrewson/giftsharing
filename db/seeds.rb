@@ -245,7 +245,6 @@ i = [
     :quantity => 1,
     :comments => "I love to play basketball every day.",
     :url => "http://www.amazon.com/Spalding-NBA-Street-Basketball-Official/dp/B0009VELG4/ref=sr_1_1?ie=UTF8&qid=1393813830&sr=8-1&keywords=basketball",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Example").id,
     :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
   },
@@ -254,7 +253,6 @@ i = [
     :quantity => 1,
     :comments => "I need new work clothes",
     :url => "http://bananarepublic.gap.com/browse/product.do?cid=56729&vid=1&pid=958408002",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
     :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
   },
@@ -263,7 +261,6 @@ i = [
     :quantity => 1,
     :comments => "I love tablets",
     :url => "http://www.amazon.com/kindle-fire-hdx-best-movie-tablet-8.9/dp/B00BHJRYYS/ref=sr_1_1?ie=UTF8&qid=1393814366&sr=8-1&keywords=kindle",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Example").id,
     :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
   },
@@ -272,7 +269,6 @@ i = [
     :quantity => 1,
     :comments => "Kellogg is very expensive!",
     :url => "http://kellogg.northwestern.edu/",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
     :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
   },
@@ -281,7 +277,6 @@ i = [
     :quantity => 3,
     :comments => "I am interested in statistical modeling",
     :url => "http://www.amazon.com/Signal-Noise-Many-Predictions-Fail/dp/159420411X/ref=sr_1_1?s=books&ie=UTF8&qid=1393814422&sr=1-1&keywords=signal+and+the+noise",
-    :quantity_purchased => 1,
     :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
     :list_id => List.find_by(listname: "Andy's Birthday List 2014").id
   },
@@ -290,7 +285,6 @@ i = [
     :quantity => 1,
     :comments => "I love to play basketball every day.",
     :url => "http://www.amazon.com/Spalding-NBA-Street-Basketball-Official/dp/B0009VELG4/ref=sr_1_1?ie=UTF8&qid=1393813830&sr=8-1&keywords=basketball",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
     :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
   },
@@ -299,7 +293,6 @@ i = [
     :quantity => 1,
     :comments => "I love to ride",
     :url => "http://www.trekbikes.com/us/en/bikes/road/performance_race/madone_5_series/",
-    :quantity_purchased => 0,
     :request_type => RequestType.find_by(request_type_description: "Example").id,
     :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
   },
@@ -311,7 +304,6 @@ i.each do |item|
   it.quantity_requested = item[:quantity]
   it.comments = item[:comments]
   it.url = item[:url]
-  it.quantity_purchased = item[:quantity_purchased]
   it.request_type_id = item[:request_type]
   it.list_id = item[:list_id]
   it.save

@@ -59,14 +59,24 @@ class ConnectionsController < ApplicationController
     # Make sure there isn't a request pending to this email already
 
     # Given this email is registered, add a row to the requests table
-    cr = ConnectionRequest.new
-    cr.user_id = @current_user.id
-    cr.requested_user_id = User.find_by(:email => params[:request_email]).id
-    cr.connection_type_id = params[:connection_type]
-    cr.request_date  = Time.now
-    cr.save
 
-    redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
+    requested_user = User.find_by(:email => params[:request_email])
+
+    if requested_user.present?
+
+      cr = ConnectionRequest.new
+      cr.user_id = @current_user.id
+      cr.requested_user_id = User.find_by(:email => params[:request_email]).id
+      cr.connection_type_id = params[:connection_type]
+      cr.request_date  = Time.now
+      cr.save
+
+      redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
+    elsif User.find_by(:email => params[:request_email]).nil?
+
+      redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
+    end
+
   end
 
 

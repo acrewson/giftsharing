@@ -5,7 +5,6 @@ class CreateItems < ActiveRecord::Migration
       t.integer :quantity_requested
       t.text :comments
       t.string :url
-      t.integer :quantity_purchased
       t.datetime :date_deleted
       t.text :reason_deleted
       t.integer :list_id

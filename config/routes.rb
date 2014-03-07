@@ -19,9 +19,10 @@ Giftsharing::Application.routes.draw do
   get  "/mylists/:list_id/contents/add" => "mylists#item_add"
   get  "/mylists/:list_id/contents/delete/:item_id" => "mylists#item_delete"
 
-  # Shared Lists
-  get  "/sharedlists/:list_id/list" => "sharedlists#listContents"
+  # Purchases on Shared Lists
+  get  "/sharedlists/:list_id/contents" => "sharedlists#listContents"
   get  "/sharedlists/:list_id/item/:item_id" => "sharedlists#claim_item"
+  get  "/sharedlists/:list_id/purchases/delete/:item_id" => "sharedlists#unclaim_item"
 
 
   # Connections
@@ -37,7 +38,6 @@ Giftsharing::Application.routes.draw do
 
 # Functionality
   # Add a way to edit an item already on the list
-  # Add way for user to flag if it is an example or the exact item
   # Add a way for the user to edit the name/date of a list
   # The remember me button doesn't do anything when logging in
   # Add a "my profile" page.
