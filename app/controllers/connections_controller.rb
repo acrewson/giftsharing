@@ -3,12 +3,21 @@ require 'time'
 class ConnectionsController < ApplicationController
 
   def home
-    @current_user = User.find_by(:id => session[:user_id])
+    if session[:user_id].present?
+      @current_user = User.find_by(:id => session[:user_id])
 
-    # Find people I am connected to
-    @my_connections = User.select("users.*, connections.connection_type_id").joins("JOIN connections ON connections.connected_user_id = users.id AND connections.user_id = #{@current_user.id}")
+      # Find people I am connected to
+      @my_connections = User.select("users.*, connections.connection_type_id").joins("JOIN connections ON connections.connected_user_id = users.id AND connections.user_id = #{@current_user.id}")
 
-    @my_pending_connections = User.joins(:connection_requests).where("requested_user_id = ?", @current_user.id)
+      @my_pending_connections = User.joins(:connection_requests).where("requested_user_id = ?", @current_user.id)
+    else
+
+      redirect_to "/login", notice: "Please login to see this page"
+
+    end
+
+
+
   end
 
   def request_response
@@ -62,7 +71,7 @@ class ConnectionsController < ApplicationController
 
     requested_user = User.find_by(:email => params[:request_email])
 
-    if requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil?
+    if requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil? && @current_user.connection_requests.find_by(:requested_user_id => requested_user.id).nil?
 
       cr = ConnectionRequest.new
       cr.user_id = @current_user.id
@@ -71,7 +80,14 @@ class ConnectionsController < ApplicationController
       cr.request_date  = Time.now
       cr.save
 
+      UserMailer.connection_request_email(@current_user, requested_user).deliver
+
       redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
+
+    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil? && @current_user.connection_requests.find_by(:requested_user_id => requested_user.id).present?
+
+      redirect_to "/connections", notice: "There is already a request pending for #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")"}."
+
 
     elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).present?
 
@@ -84,6 +100,8 @@ class ConnectionsController < ApplicationController
       redirect_to "/connections", notice: "You are already connected to #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")."}"
 
     elsif User.find_by(:email => params[:request_email]).nil?
+
+      UserMailer.connection_invite_email(@current_user, params[:request_email]).deliver
 
       redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
     end

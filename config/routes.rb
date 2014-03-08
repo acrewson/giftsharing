@@ -44,6 +44,7 @@ Giftsharing::Application.routes.draw do
   # The remember me button doesn't do anything when logging in
   # Add a "my profile" page.
   # Be able to generate emails and invite people to join
+  # Through email verification make sure user owns given email address
   # Add a my purchases tab to top
   # Buttons in tables don't work first time hitting page (have to refresh)
 

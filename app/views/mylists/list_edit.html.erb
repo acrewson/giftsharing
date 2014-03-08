@@ -29,7 +29,7 @@
       <% cur_month = "0" + @selected_list.eventdate.month.to_s %>
       <% cur_day = "0" + @selected_list.eventdate.day.to_s %>
       <% cur_year = @selected_list.eventdate.year.to_s %>
-        value=" <%= cur_month[cur_month.length-2,2] + "/" + cur_day[cur_day.length-2,2] + "/" + cur_year %>"
+        value="<%= cur_month[cur_month.length-2,2] + "/" + cur_day[cur_day.length-2,2] + "/" + cur_year %>"
       <% else %>
         placeholder="MM/DD/YYYY"
       <% end %>
