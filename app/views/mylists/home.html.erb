@@ -1,77 +1,17 @@
 
 
   <div class="jumbotron">
-    <div class="h2_update">Welcome, <%= @user_first_name %>! Here are your gift lists.</div>
+    <div class="h2_update">Welcome, <%= @current_user.firstname %>! Here are your gift lists.</div>
   </div>
 
 
   <div class = "row">
     <div class="col-md-6">
-      <h4>Your current lists...</h4>
-      <div class="padding_bottom">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>List Name</th>
-              <th>Event Date</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @mylists.each do |mylist| %>
-              <tr>
-                <td><a href="/mylists/<%= mylist.id %>/contents"><%= mylist.listname %></a></td>
-                <td><%= mylist.eventdate.strftime("%B %d, %Y") %></td>
-                <td><a href="/mylists/<%= mylist.id %>/delete"><i class="fa fa-trash-o"></i></a></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <h4>Lists shared with you...</h4>
-      <div class="padding_bottom">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>List Name</th>
-              <th>Event Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @lists_shared_with_me.each do |sharedlist| %>
-              <tr>
-                <td><a href="/sharedlists/<%= sharedlist.id %>/contents"><%= sharedlist.listname %></a></td>
-                <td><%= sharedlist.eventdate.strftime("%B %d, %Y") %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+      <%= render 'mylists_home_mycurrentlists' %>
+      <%= render 'mylists_home_lists_shared_with_me' %>
     </div>   <!-- This ends the table column -->
-
-
-
     <div class="col-md-6">
-      <h4>Create a new list:</h4>
-      <form action="/mylists/create">
-        <div class="form-group">
-          <label for="listname">List Name</label>
-          <input name = "listname" type="text" class="form-control" id="listname" placeholder="<%= @user_first_name %>'s Birthday List 2014">
-        </div>
-        <div class="form-group">
-          <label for="listtype">List Type</label>
-          <select name="listtype">
-            <% @list_types.each do |lt|  %>
-              <option value="<%= Listtype.find_by(listtype:  lt.listtype).id %>"><%= lt.listtype %></option>
-            <% end %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="eventdate">Event Date</label>
-          <input name = "eventdate" type="text" class="form-control" id="eventdate" placeholder="MM/DD/YYYY">
-        </div>
-        <input type="submit" class="btn btn-lg btn-success" value="Create list!">
-      </form>
+    <%= render 'mylists_home_create_new_list' %>
     </div>
   </div> <!-- this ends the row -->
 

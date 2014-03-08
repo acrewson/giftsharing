@@ -1,0 +1,26 @@
+
+
+<h4>Create a new list:</h4>
+<form action="/mylists/create">
+  <div class="form-group">
+    <label for="listname">List Name</label>
+    <input name = "listname" type="text" class="form-control" id="listname" placeholder="<%= @current_user.firstname %>'s Birthday List 2014">
+  </div>
+  <div class="form-group">
+    <label for="listtype">List Type</label>
+    <select name="listtype">
+      <% Listtype.all.each do |lt|  %>
+        <% if lt.listtype == "Birthday" %>
+          <option selected="selected" value="<%= lt.id %>"><%= lt.listtype %></option>
+        <% else %>
+          <option value="<%= lt.id %>"><%= lt.listtype %></option>
+        <% end %>
+      <% end %>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="eventdate">Event Date</label>
+    <input name = "eventdate" type="text" class="form-control" id="eventdate" placeholder="MM/DD/YYYY">
+  </div>
+  <input type="submit" class="btn btn-lg btn-success" value="Create list!">
+</form>

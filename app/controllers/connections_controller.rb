@@ -62,7 +62,7 @@ class ConnectionsController < ApplicationController
 
     requested_user = User.find_by(:email => params[:request_email])
 
-    if requested_user.present?
+    if requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil?
 
       cr = ConnectionRequest.new
       cr.user_id = @current_user.id
@@ -72,6 +72,17 @@ class ConnectionsController < ApplicationController
       cr.save
 
       redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
+
+    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).present?
+
+
+    redirect_to "/connections", notice: "#{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ") has already invited you to connect. Respond below!"}"
+
+
+    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).present?
+
+      redirect_to "/connections", notice: "You are already connected to #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")."}"
+
     elsif User.find_by(:email => params[:request_email]).nil?
 
       redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."

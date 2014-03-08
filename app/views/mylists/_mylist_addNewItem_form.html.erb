@@ -1,0 +1,30 @@
+      <!-- Add a form to allow users to add new items -->
+      <h4>Add a new item to your list:</h4>
+      <form action="/mylists/<%= @selected_list.id %>/contents/add">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input name = "description" type="text" class="form-control" id="description" placeholder="Red sweater">
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity Requested</label>
+        <input name = "quantity" type="text" class="form-control" id="quantity" placeholder="1">
+      </div>
+      <div class="form-group">
+        <label for="request_type">Request Type</label>
+        <select name="requst_type" id="request_type">
+          <% RequestType.all.each do |rt| %>
+            <option value="<%= rt.id %>"><%= rt.request_type_description %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="url">Web Address of Item</label>
+        <input name = "url" type="text" class="form-control" id="url" placeholder="Copy link to item here...">
+      </div>
+      <div class="form-group">
+        <label for="comments">Additional Details</label>
+        <textarea name = "comments" type="text" class="form-control" id="comments" placeholder="Enter additional information about your item here. E.g. Why you want it, what you'll use it for, etc."></textarea>
+      </div>
+      <input type="submit" class="btn btn-lg btn-success" value="Add item!">
+      </form>
+    </div>

@@ -21,9 +21,8 @@
         <tr>
           <td class="center_text" width="80">
             <span class="padding_right_10">
-              <a href="/sharedlists/<%= @selected_list.id %>/purchases/delete/<%= i.item_id %>"><i class="fa fa-trash-o"></i></a>
+              <a href="/sharedlists/<%= @selected_list.id %>/purchases/delete/<%= i.item_id %>"><i class="fa fa-trash-o text_color_black"></i></a>
             </span>
-            <span><i class="fa fa-pencil"></i></span>
           </td>
           <td><a target="_blank" href="<%= i.item.url %>"><%= i.item.description %></a></td>
           <td><%= i.quantity_purchased %></td>

@@ -1,0 +1,62 @@
+      <!-- Add a form to allow users to add new items -->
+      <h4>Edit your item</h4>
+      <form action="/mylists/<%= @selected_list.id %>/contents/update/<%= @selected_item.id %>">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input name = "description" type="text" class="form-control" id="description"
+          <% if @selected_item.description.present? %>
+            value="<%= @selected_item.description %>"
+          <% else %>
+            placeholder="Red sweater"
+          <% end %>
+        >
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity Requested</label>
+        <input name = "quantity" type="text" class="form-control" id="quantity"
+          <% if @selected_item.description.present? %>
+            value="<%= @selected_item.quantity_requested %>"
+          <% else %>
+            placeholder="1"
+          <% end %>
+        >
+      </div>
+      <div class="form-group">
+        <label for="request_type">Request Type</label>
+        <select name="requst_type" id="request_type">
+          <% RequestType.all.each do |rt| %>
+            <% if rt.id == @selected_item.request_type_id %>
+              <option selected="selected" value="<%= rt.id %>"><%= rt.request_type_description %></option>
+            <% else %>
+              <option value="<%= rt.id %>"><%= rt.request_type_description %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="url">Web Address of Item</label>
+        <input name = "url" type="text" class="form-control" id="url"
+          <% if @selected_item.url.present? %>
+            value="<%= @selected_item.url %>"
+          <% else %>
+            placeholder="Copy link to item here..."
+          <% end %>
+        >
+      </div>
+      <div class="form-group">
+        <label for="comments">Additional Details</label>
+        <textarea name = "comments" type="text" class="form-control" id="comments"
+          <% if @selected_item.comments.nil? %>
+            placeholder="Enter additional information about your item here. E.g. Why you want it, what you'll use it for, etc."
+            >
+            </textarea>
+          <% else %>
+            ><%= @selected_item.comments %></textarea>
+          <% end %>
+      </div>
+      <input type="submit" class="btn btn-lg btn-success" value="Update">
+      </form>
+    </div>
+
+
+

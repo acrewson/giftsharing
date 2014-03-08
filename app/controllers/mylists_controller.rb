@@ -4,15 +4,14 @@ require 'time'
 class MylistsController < ApplicationController
 
   def home
-    current_user = User.find_by(:id => session[:user_id])
+    @current_user = User.find_by(:id => session[:user_id])
 
-    if current_user.present?
-      @user_first_name = current_user.firstname
-      @mylists = List.where("datedeleted is ? AND user_id = ?", nil, current_user.id)
-      # @lists_shared_with_me = current_user.shared_lists
-      @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ?", current_user.id, nil)
+    if @current_user.present?
 
-      @list_types = Listtype.all
+      @mylists = List.where("datedeleted is ? AND user_id = ?", nil, @current_user.id)
+
+      @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ?", @current_user.id, nil)
+
     else
       redirect_to "/login", notice: "Please login to view this page"
     end
@@ -22,7 +21,13 @@ class MylistsController < ApplicationController
 
 
   def list_create
-    list = List.new
+    if List.find_by(:id => params[:list_id]).present?
+      list = List.find_by(:id => params[:list_id])
+    else
+      list = List.new
+    end
+
+
     list.listname = params[:listname]
     list.listtype_id = params[:listtype]
     list.eventdate = Date.strptime(params[:eventdate], "%m/%d/%Y")
@@ -33,6 +38,11 @@ class MylistsController < ApplicationController
   end
 
 
+
+  def list_edit
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
+  end
 
 
 
@@ -85,8 +95,13 @@ class MylistsController < ApplicationController
 
 
   def item_add
+    if Item.find_by(:id => params[:item_id]).present?
+      i = Item.find_by(:id => params[:item_id])
+    else
+      i = Item.new
+    end
+
     #Save the user inputted information to the list
-    i = Item.new
     i.description = params[:description]
     i.quantity_requested = params[:quantity]
     i.comments = params[:comments]
@@ -106,6 +121,13 @@ class MylistsController < ApplicationController
 
     redirect_to "/mylists/#{params[:list_id]}/contents"
   end
+
+
+  def item_edit
+    @selected_list = List.find_by(id: params[:list_id])
+    @selected_item = Item.find_by(id: params[:item_id])
+  end
+
 
 
 
