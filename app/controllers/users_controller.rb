@@ -19,11 +19,36 @@ class UsersController < ApplicationController
   end
 
 
-  def view_profile
+  def profile_view
+    @current_user = User.find_by(:id => session[:user_id])
+
+  end
+
+  def profile_edit
+    @current_user = User.find_by(:id => session[:user_id])
 
   end
 
 
+  def profile_update
+    @current_user = User.find_by(:id => session[:user_id])
+
+    # Update the user's info based on their inputs
+    u = User.find_by(:id => @current_user.id)
+    u.firstname = params[:firstname]
+    u.lastname = params[:lastname]
+    u.birthdate = params[:birthdate]
+    u.address = params[:address]
+    u.city = params[:city]
+    u.state_id = params[:state]
+    u.zip = params[:zip]
+    u.gender_id = params[:gender]
+    u.save
+
+
+    redirect_to "/myprofile", notice: "Your profile has been updated."
+
+  end
 
 
 

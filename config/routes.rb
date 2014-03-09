@@ -57,6 +57,7 @@ Giftsharing::Application.routes.draw do
     get  "/sharedlists/:list_id/item/claim" => "sharedlists#claim_item"
 
     #READ
+    get  "/purchases" => "purchases#view_my_purchases"
     get  "/sharedlists/:list_id/contents" => "sharedlists#listContents"
 
     #UPDATE
@@ -95,9 +96,11 @@ Giftsharing::Application.routes.draw do
       get  "/signup"  => "users#create_new_user"
 
     #READ
-      get  "/myprofile" => "users#view_profile"
+      get  "/myprofile" => "users#profile_view"
 
     #UPDATE
+      get  "/myprofile/edit" => "users#profile_edit"
+      get  "/myprofile/update" => "users#profile_update"
 
     #DELETE
       # Note: I am not currently offering a way for a user to de-activate their account
@@ -124,9 +127,7 @@ Giftsharing::Application.routes.draw do
 
 # Functionality
   # The remember me button doesn't do anything when logging in
-  # Add a "my profile" page.
   # Through email verification make sure user owns given email address
-  # Add a my purchases tab to top
 
 # Cosmetics
   # Create a home page
@@ -139,7 +140,6 @@ Giftsharing::Application.routes.draw do
   # Add database constraints to the tables
   # Go back and use #{} instead of adding strings
   # Go through HTML and use ruby tags instead where possible
-  # Organize around CRUD framework - fill holes as needed
   # Make sure email address entries are legit
 
 # Security

@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
   has_many :connections
   has_many :connection_requests
   belongs_to :gender
+  belongs_to :state
 end
