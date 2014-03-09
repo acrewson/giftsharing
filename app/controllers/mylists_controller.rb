@@ -58,14 +58,14 @@ class MylistsController < ApplicationController
 
 
   def listContents
-    current_user = User.find_by(:id => session[:user_id])
+    @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
 
 
     if @selected_list.nil?
       redirect_to "/mylists", notice: "Something went wrong, please try again"
-    elsif current_user.present? && current_user.id == @selected_list.user_id
-      @user_first_name = current_user.firstname
+    elsif @current_user.present? && @current_user.id == @selected_list.user_id
+      @user_first_name = @current_user.firstname
 
       @myitems = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
 
@@ -75,7 +75,7 @@ class MylistsController < ApplicationController
       @potential_users = User.select("cu.*").joins("
                 JOIN connections as c
                   ON users.id = c.user_id
-                  AND c.user_id = #{current_user.id}
+                  AND c.user_id = #{@current_user.id}
                 JOIN users as cu
                   ON c.connected_user_id = cu.id
                 LEFT OUTER JOIN shared_lists as sl
@@ -84,7 +84,7 @@ class MylistsController < ApplicationController
         .where("sl.list_id is ?", nil)
 
 
-    elsif current_user.present? && current_user.id != @selected_list.user_id
+    elsif @current_user.present? && @current_user.id != @selected_list.user_id
       redirect_to "/mylists", notice: "You do not have access to view that page."
     else
       redirect_to "/login", notice: "Please login to view this page"

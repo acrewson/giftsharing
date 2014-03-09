@@ -99,7 +99,7 @@ u = [
   {
     :firstname => "Kyle",
     :lastname => "Singler",
-    :birthdate => "06/23/1987",
+    :birthdate => "6/23/1987",
     :address => "2222 Main St.",
     :city => "Portland",
     :state_id => State.find_by(state_abbrev: "OR").id,
@@ -111,7 +111,7 @@ u = [
   {
     :firstname => "Julia",
     :lastname => "Crewson",
-    :birthdate => "09/24/1984",
+    :birthdate => "9/24/1984",
     :address => "2222 Main St.",
     :city => "Evanston",
     :state_id => State.find_by(state_abbrev: "IL").id,
@@ -167,10 +167,22 @@ l = [
     :user_id => User.find_by(email: "test@email.com").id,
   },
   {
+    :listname => "Andy's Christmas List 2014",
+    :listType_id => Listtype.find_by(listtype: "Christmas").id,
+    :eventdate => "12/25/2014",
+    :user_id => User.find_by(email: "test@email.com").id,
+  },
+  {
     :listname => "Jordan's Christmas List 2014",
     :listType_id => Listtype.find_by(listtype: "Christmas").id,
     :eventdate => "12/25/2014",
     :user_id => User.find_by(email: "test2@email.com").id,
+  },
+  {
+    :listname => "Kyle's Random Wish List",
+    :listType_id => Listtype.find_by(listtype: "Other").id,
+    :eventdate => "11/1/2014",
+    :user_id => User.find_by(email: "test7@email.com").id,
   },
   {
     :listname => "Steve's Wedding Registry",
@@ -208,6 +220,11 @@ s = [
   {
     :shared_date => "03/02/2014",
     :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id,
+    :user_id => User.find_by(email: "test@email.com").id,
+  },
+  {
+    :shared_date => "03/09/2014",
+    :list_id => List.find_by(listname: "Kyle's Random Wish List").id,
     :user_id => User.find_by(email: "test@email.com").id,
   }
 ]

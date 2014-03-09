@@ -1,27 +1,55 @@
-      <div class="row">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h4 class="panel-title">This list is shared with:</h4>
-          </div>
-          <div class="panel-body">
-            <form action="/mylists/<%= @selected_list.id %>/list_access/remove">
-            <div class="padding_bottom">
-              <table>
-                <thead></thead>
-                <tbody>
-                  <% @shared_users.each do |shared_user| %>
-                  <tr>
-                  <td>
-                    <span class="padding_right_20"><input type="checkbox" name="remove<%= shared_user.id %>" value="true"></span>
-                    <%= shared_user.firstname + " " + shared_user.lastname %>
-                  </td>
-                  </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-            <input type="submit" class="btn btn-md btn-danger" value="Remove access">
-            </form>
-          </div>
+
+
+<div class="row">
+  <% if @shared_users.present? %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">This list is shared with:</h4>
+      </div>
+      <div class="panel-body">
+        <form action="/mylists/<%= @selected_list.id %>/list_access/remove">
+        <div class="padding_bottom">
+          <table>
+            <thead></thead>
+            <tbody>
+              <% @shared_users.each do |shared_user| %>
+              <tr>
+              <td>
+                <span class="padding_right_20"><input type="checkbox" name="remove<%= shared_user.id %>" value="true"></span>
+                <%= shared_user.firstname + " " + shared_user.lastname %>
+              </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <input type="submit" class="btn btn-md btn-danger" value="Remove access">
+        </form>
+      </div>
+    </div>
+
+  <% elsif @current_user.connections.present? && @shared_users.count==0 %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">List Access</h4>
+      </div>
+      <div class="panel-body">
+        <div class="padding_bottom">
+          <p>This list is not shared with anyone.</p>
         </div>
       </div>
+    </div>
+  <% else %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">List Access</h4>
+      </div>
+      <div class="panel-body">
+        <div class="padding_bottom">
+          <p>You must have connections before you can share a list.</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+

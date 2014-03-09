@@ -1,27 +1,43 @@
-      <div class="row">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h4 class="panel-title">Share this list with others:</h4>
+
+
+  <div class="row">
+    <% if @potential_users.present? %>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panel-title">Share this list with others:</h4>
+        </div>
+        <div class="panel-body">
+          <form action="/mylists/<%= @selected_list.id %>/list_access/add">
+          <div class="padding_bottom">
+          <table>
+            <thead></thead>
+              <tbody>
+                <% @potential_users.each do |potential_share| %>
+                <tr>
+                <td>
+                  <span class="padding_right_20"><input type="checkbox" name="add<%= potential_share.id %>" value="true"></span>
+                  <%= potential_share.firstname + " " + potential_share.lastname %>
+                </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
           </div>
-          <div class="panel-body">
-            <form action="/mylists/<%= @selected_list.id %>/list_access/add">
-            <div class="padding_bottom">
-            <table>
-              <thead></thead>
-                <tbody>
-                  <% @potential_users.each do |potential_share| %>
-                  <tr>
-                  <td>
-                    <span class="padding_right_20"><input type="checkbox" name="add<%= potential_share.id %>" value="true"></span>
-                    <%= potential_share.firstname + " " + potential_share.lastname %>
-                  </td>
-                  </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-            <input type="submit" class="btn btn-md btn-success" value="Grant access">
-            </form>
+          <input type="submit" class="btn btn-md btn-success" value="Grant access">
+          </form>
+        </div>
+      </div>
+    <% elsif @potential_users.nil? && @current_user.connections >0 %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panel-title"></h4>
+        </div>
+        <div class="panel-body">
+          <div class="padding_bottom">
+            <p>This list is shared with all of your connections.</p>
           </div>
         </div>
       </div>
+    <% end %>
+  </div>

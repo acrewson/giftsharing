@@ -128,11 +128,13 @@ Giftsharing::Application.routes.draw do
 # Functionality
   # The remember me button doesn't do anything when logging in
   # Through email verification make sure user owns given email address
+  # Figure out a way to hold the requests for users that haven't signed up yet
 
 # Cosmetics
   # Create a home page
   # Some of my buttons in tables still not centered vertically
   # Make sure sections are dynamically hidden if empty and act intelligently
+  # Login page looks weird (in chrome) until you do a refresh
 
 # Robustness
   # Add a bunch of logic/checks to make sure users don't abuse URL structure
