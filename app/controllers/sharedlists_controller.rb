@@ -27,18 +27,23 @@ end
 
 def claim_item
 
+    # From the form, identify the item
+    item_claimed = Item.find_by(:id => params[:item_claimed])
+    q_claimed = params["item_#{item_claimed.id.to_s}_q_claimed"].to_i
+
+
     # Update the Purchases table
-    if Purchase.find_by("item_id = ? AND user_id = ?", params[:item_id], session[:user_id]).present?
-        p = Purchase.find_by("item_id = ? AND user_id = ?", params[:item_id], session[:user_id])
+    if Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, session[:user_id]).present?
+        p = Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, session[:user_id])
         p.date_purchased = Time.now
-        p.quantity_purchased = p.quantity_purchased + params[:q_claimed].to_i
+        p.quantity_purchased = p.quantity_purchased + q_claimed
         p.save
     else
         p = Purchase.new
-        p.item_id = params[:item_id]
+        p.item_id = item_claimed.id
         p.user_id = session[:user_id]
         p.date_purchased = Time.now
-        p.quantity_purchased = params[:q_claimed].to_i
+        p.quantity_purchased = q_claimed
         p.save
     end
 

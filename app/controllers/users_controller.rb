@@ -16,9 +16,15 @@ class UsersController < ApplicationController
       redirect_to "/login", notice: "Your account has been created - please login."
     end
 
+  end
 
+
+  def view_profile
 
   end
+
+
+
 
 
 end

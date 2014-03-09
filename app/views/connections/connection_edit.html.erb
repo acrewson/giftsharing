@@ -1,0 +1,53 @@
+  <div class="jumbotron">
+    <div class="h2_update">Edit your connections</div>
+  </div>
+
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="padding_bottom">
+      <form action="/connections/update">
+      <table class="table table-striped table-bordered">
+        <thead class="blue_white_table_header">
+          <tr>
+            <th>Connection Name</th>
+            <th>Relation</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @my_connections.each do |connection| %>
+            <tr>
+              <td><%= connection.firstname + " " + connection.lastname %></td>
+              <td>
+                <select id="connec_drop" name="connection_<%= connection.id %>_type" onchange="this.form.submit()">
+                  <% ConnectionType.all.each do |ct|  %>
+                    <% if connection.connection_type_id == ct.id %>
+                      <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% else %>
+                      <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% end %>
+                  <% end %>
+                </select>
+              </td>
+              <td class="center_text">
+                <span>
+                    <a href="/connections/<%= connection.id %>/delete"><i class="fa fa-trash-o text_color_black"></i></a>
+                  </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+
+
+<script>
+  $(function(){
+    $("#connec_drop").change( function(e) {
+        this.form.submit();
+    });
+});
+</script>

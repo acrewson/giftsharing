@@ -124,6 +124,7 @@ class MylistsController < ApplicationController
 
 
   def item_edit
+    @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
     @selected_item = Item.find_by(id: params[:item_id])
   end

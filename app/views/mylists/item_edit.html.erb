@@ -1,3 +1,7 @@
+  <div class="jumbotron">
+    <div class="h2_update"><%= @selected_list.listname %></div>
+  </div>
+
       <!-- Add a form to allow users to add new items -->
       <h4>Edit your item</h4>
       <form action="/mylists/<%= @selected_list.id %>/contents/update/<%= @selected_item.id %>">
