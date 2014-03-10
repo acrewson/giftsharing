@@ -109,16 +109,10 @@ Giftsharing::Application.routes.draw do
 
 
 
-
-
-    #CREATE
-
-    #READ
-
-    #UPDATE
-
-    #DELETE
-
+# Questions for Jeff
+  # Got email working, but how do I send a unique link to verify identity?
+  # Given most pages have authentication, is there a better than repeating the same logic everywhere?
+  # How do I end the user's session when the tab/browser closes?
 
 
 
@@ -133,12 +127,8 @@ Giftsharing::Application.routes.draw do
 # Cosmetics
   # Create a home page
   # Some of my buttons in tables still not centered vertically
-  # Make sure sections are dynamically hidden if empty and act intelligently
-  # Login page looks weird (in chrome) until you do a refresh
 
 # Robustness
-  # Add a bunch of logic/checks to make sure users don't abuse URL structure
-  # URLs only work when user puts full path. Support www. entries
   # Add database constraints to the tables
   # Go back and use #{} instead of adding strings
   # Go through HTML and use ruby tags instead where possible
@@ -146,6 +136,7 @@ Giftsharing::Application.routes.draw do
 
 # Security
   # Go through everything and make sure URL paths can't be exploited
+  # Make sure that someone who isn't logged in can't see anything
   # Learn about SQL injection and review everything
 
 

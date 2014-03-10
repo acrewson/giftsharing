@@ -1,43 +1,46 @@
-<div class="padding_bottom">
-  <h4>Pending Invitations...</h4>
+<% if @my_pending_connections.present? %>
   <div class="padding_bottom">
-    <form action="/connections/response">
-    <table class="table table-striped">
-      <thead class="blue_white_table_header">
-        <tr>
-          <th>Name</th>
-          <th>Relation</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @my_pending_connections.each do |connection| %>
+    <h4>Pending Invitations...</h4>
+    <div class="padding_bottom">
+      <form action="/connections/response">
+      <table class="table table-striped">
+        <thead class="blue_white_table_header">
           <tr>
-            <td style="vertical-align: middle;"><%= connection.firstname + " " + connection.lastname %></td>
-
-            <td style="vertical-align: middle;">
-              <select name="connection_<%= connection.id %>_type">
-                <% ConnectionType.all.each do |ct|  %>
-                  <% if connection.connection_requests.first.connection_type.inverse_male_connection_id == ct.id and connection.gender.gender_name == "Male"%>
-                      <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
-                  <% elsif connection.connection_requests.first.connection_type.inverse_female_connection_id == ct.id and connection.gender.gender_name == "Female"%>
-                      <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
-                  <% elsif connection.connection_requests.first.connection_type.inverse_unknown_connection_id == ct.id and connection.gender_id.nil?%>
-                      <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
-                  <% else%>
-                    <option value="<%= ct.id %>"><%= ct.connection_description %></option>
-                  <% end %>
-                <% end %>
-              </select>
-            </td>
-            <td style="vertical-align: middle;"><button class="btn btn-sm btn-success btn-block" type="submit" name="connec_response" value="Accept<%= connection.id %>">Accept</button></td>
-
-            <td style="vertical-align: middle;"><button class="btn btn-sm btn-danger btn-block" type="submit" name="connec_response" value="Decline<%= connection.id %>">Decline</button></td>
+            <th>Name</th>
+            <th>Relation</th>
+            <th></th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    </form>
+        </thead>
+        <tbody>
+          <% @my_pending_connections.each do |connection| %>
+            <tr>
+              <td style="vertical-align: middle;"><%= connection.firstname + " " + connection.lastname %></td>
+
+              <td style="vertical-align: middle;">
+                <select name="connection_<%= connection.id %>_type">
+                  <% ConnectionType.all.each do |ct|  %>
+                    <% if connection.connection_requests.first.connection_type.inverse_male_connection_id == ct.id and connection.gender.gender_name == "Male"%>
+                        <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% elsif connection.connection_requests.first.connection_type.inverse_female_connection_id == ct.id and connection.gender.gender_name == "Female"%>
+                        <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% elsif connection.connection_requests.first.connection_type.inverse_unknown_connection_id == ct.id and connection.gender_id.nil?%>
+                        <option selected="selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% else%>
+                      <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                    <% end %>
+                  <% end %>
+                </select>
+              </td>
+              <td style="vertical-align: middle;"><button class="btn btn-sm btn-success btn-block" type="submit" name="connec_response" value="Accept<%= connection.id %>">Accept</button></td>
+
+              <td style="vertical-align: middle;"><button class="btn btn-sm btn-danger btn-block" type="submit" name="connec_response" value="Decline<%= connection.id %>">Decline</button></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      </form>
+    </div>
   </div>
-</div>
+<% end %>
+

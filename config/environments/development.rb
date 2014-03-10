@@ -41,4 +41,8 @@ Giftsharing::Application.configure do
     enable_starttls_auto: true
   }
 
+
+  # Putting this in based on the rails security guides
+  config.force_ssl = true
+
 end

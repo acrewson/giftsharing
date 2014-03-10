@@ -313,6 +313,70 @@ i = [
     :request_type => RequestType.find_by(request_type_description: "Example").id,
     :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
   },
+  {
+    :description => "1984 the book",
+    :quantity => 1,
+    :comments => "I forgot to read this in high school!",
+    :url => "http://www.amazon.com/gp/product/0451524934/ref=amb_link_397448882_1?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-5&pf_rd_r=1NT75RPVDBYYV1ZDBP90&pf_rd_t=101&pf_rd_p=1741872962&pf_rd_i=8192263011",
+    :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
+  },
+   {
+    :description => "Amazon Prime",
+    :quantity => 1,
+    :comments => "I love fast shipping",
+    :url => "http://www.amazon.com/Amazon-Prime-One-Year-Membership/dp/B00DBYBNEE",
+    :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
+  },
+   {
+    :description => "Blue dress shirt",
+    :quantity => 2,
+    :comments => "I need more things to wear to the office",
+    :url => "http://www1.macys.com/shop/product/alfani-spectrum-solid-slim-fit-long-sleeve-dress-shirt?ID=1285068&CategoryID=20635#fn=sp%3D1%26spc%3D846%26ruleId%3D78%26slotId%3D2",
+    :request_type => RequestType.find_by(request_type_description: "Example").id,
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
+  },
+   {
+    :description => "Driver",
+    :quantity => 1,
+    :comments => "My dad keeps outdriving me by 20 yards...",
+    :url => "http://www.dickssportinggoods.com/product/index.jsp?productId=30405146&cp=4406646.4413989.11399842.11025124",
+    :request_type => RequestType.find_by(request_type_description: "Example").id,
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
+  },
+   {
+    :description => "More undershirts",
+    :quantity => 3,
+    :comments => "Need some more.",
+    :url => "http://www.target.com/p/hanes-men-s-6pk-crew-neck-t-shirts-white/-/A-14450617#prodSlot=medium_1_1&term=undershirts",
+    :request_type => RequestType.find_by(request_type_description: "Example").id,
+    :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id
+  },
+   {
+    :description => "Headphones",
+    :quantity => 1,
+    :comments => "I love to listen to music!",
+    :url => "http://www.walmart.com/ip/Monster-NCredible-N-Tune-On-Ear-Headphones/22053755",
+    :request_type => RequestType.find_by(request_type_description: "Example").id,
+    :list_id => List.find_by(listname: "Kyle's Random Wish List").id
+  },
+   {
+    :description => "Desk Chair",
+    :quantity => 1,
+    :comments => "My current one is very uncomfortable",
+    :url => "http://www.walmart.com/ip/Phoenix-Task-Chair-with-Arms-Multiple-Colors/14013709?povid=P1262-TJR-14013709",
+    :request_type => RequestType.find_by(request_type_description: "Example").id,
+    :list_id => List.find_by(listname: "Kyle's Random Wish List").id
+  },
+   {
+    :description => "Swimsuit",
+    :quantity => 2,
+    :comments => "Need some more.",
+    :url => "http://www.kohls.com/product/prd-1533044/nike-core-contender-colorblock-swim-trunks-men.jsp",
+    :request_type => RequestType.find_by(request_type_description: "Exact Request").id,
+    :list_id => List.find_by(listname: "Kyle's Random Wish List").id
+  },
 ]
 
 i.each do |item|
@@ -325,6 +389,44 @@ i.each do |item|
   it.list_id = item[:list_id]
   it.save
 end
+
+Purchase.destroy_all
+
+p = [
+  {
+    :item_id => Item.find_by(:description => "More undershirts", :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id).id,
+    :user_id => User.find_by(:email => "test@email.com").id,
+    :date_purchased => "3/06/2014",
+    :quantity_purchased => 1,
+  },
+  {
+    :item_id => Item.find_by(:description => "Amazon Prime", :list_id => List.find_by(listname: "Jordan's Christmas List 2014").id).id,
+    :user_id => User.find_by(:email => "test@email.com").id,
+    :date_purchased => "3/06/2014",
+    :quantity_purchased => 1,
+  },
+  {
+    :item_id => Item.find_by(:description => "Swimsuit", :list_id => List.find_by(listname: "Kyle's Random Wish List").id).id,
+    :user_id => User.find_by(:email => "test@email.com").id,
+    :date_purchased => "3/06/2014",
+    :quantity_purchased => 1,
+  },
+
+]
+
+
+p.each do |pur|
+  x = Purchase.new
+  x.item_id = pur[:item_id]
+  x.user_id = pur[:user_id]
+  x.date_purchased = Date.strptime(pur[:date_purchased], "%m/%d/%Y")
+  x.quantity_purchased = pur[:quantity_purchased]
+  x.save
+end
+
+
+
+
 
 
 

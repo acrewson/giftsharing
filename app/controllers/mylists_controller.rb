@@ -106,6 +106,11 @@ class MylistsController < ApplicationController
     i.quantity_requested = params[:quantity]
     i.comments = params[:comments]
     i.url = params[:url]
+
+    if params[:url][0,7] != "http://"
+      i.url = "http://" + i.url
+    end
+
     i.list_id = params[:list_id]
     i.request_type_id = params[:requst_type]
     i.save

@@ -16,9 +16,7 @@ class SharedlistsController < ApplicationController
 
         @shared_items = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
 
-        @claimed_items_by_user = Purchase.joins(:item).where("purchases.user_id = ? and items.date_deleted is ?", current_user.id, nil)
-
-
+        @claimed_items_by_user = Purchase.joins(:item).where("purchases.user_id = ? and items.date_deleted is ? and list_id = ?", current_user.id, nil, params[:list_id])
 
         end
 

@@ -18,6 +18,7 @@ def authenticate
 
   if user.present?
     if user.password == params[:pwd]
+      # This next line is where I name the session key that I'll use throughout
       session[:user_id] = user.id
       redirect_to "/mylists"
     else

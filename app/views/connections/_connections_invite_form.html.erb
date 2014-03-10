@@ -1,5 +1,5 @@
 <div class="padding_bottom">
-  <h4>Invite more people to connect!</h4>
+  <h4>Invite people to connect!</h4>
     <form action="/connections/send_request">
     <table class="table table-striped">
     <thead class="blue_white_table_header">
@@ -11,12 +11,15 @@
     </thead>
     <tbody>
         <tr>
-
           <td style="vertical-align: middle;"><input name = "request_email" type="text" class="form-control" placeholder="john.doe@gmail.com"></td>
           <td style="vertical-align: middle;">
             <select name="connection_type">
               <% ConnectionType.all.each do |ct|  %>
-                <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                <% if ct.connection_description == "Friend" %>
+                  <option selected="Selected" value="<%= ct.id %>"><%= ct.connection_description %></option>
+                <% else %>
+                  <option value="<%= ct.id %>"><%= ct.connection_description %></option>
+                <% end %>
               <% end %>
             </select>
           </td>
