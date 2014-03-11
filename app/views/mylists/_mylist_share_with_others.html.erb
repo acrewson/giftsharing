@@ -3,7 +3,7 @@
   <div class="row">
     <% if @potential_users.present? %>
 
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">
           <h4 class="panel-title">Share this list with others:</h4>
         </div>
@@ -29,7 +29,7 @@
         </div>
       </div>
     <% elsif @potential_users.nil? && @current_user.connections >0 %>
-      <div class="panel panel-primary">
+      <div class="panel panel-info">
         <div class="panel-heading">
           <h4 class="panel-title"></h4>
         </div>

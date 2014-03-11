@@ -1,0 +1,16 @@
+<div class="padding_bottom">
+  <form class="form-signin" role="form" action="/login/authenticate">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <div class="padding_bottom_10">
+      <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
+    </div>
+    <div>
+      <input name="pwd" type="password" class="form-control" placeholder="Password" required>
+    </div>
+    <label class="checkbox">
+      <input name="remember_login" type="checkbox" value="remember_me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>
+<p>...or <%= link_to "Create an account", "/create_account" %> today!</p>

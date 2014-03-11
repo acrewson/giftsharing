@@ -5,7 +5,7 @@ Giftsharing::Application.routes.draw do
 ##########################################################################
 
   # LOGGING IN / OUT
-    get "/login" => "session#login"
+
     get "/login/authenticate" => "session#authenticate"
     get "/logout" => "session#destroy"
 
@@ -93,6 +93,7 @@ Giftsharing::Application.routes.draw do
   # USERS
 
     #CREATE
+      get "/create_account" => "welcome#create_account"
       get  "/signup"  => "users#create_new_user"
 
     #READ
@@ -110,10 +111,26 @@ Giftsharing::Application.routes.draw do
 
 
 # Questions for Jeff
-  # Got email working, but how do I send a unique link to verify identity?
-  # Given most pages have authentication, is there a better than repeating the same logic everywhere?
-  # How do I end the user's session when the tab/browser closes?
 
+  # Given most pages have authentication, is there a better than repeating the same logic everywhere?
+    # Before filters (actions) in the guides
+
+  # How do I end the user's session when the tab/browser closes?
+    # Create an encrypted cookie and then use logic: cookies.signed[:remember_me] = 5
+    # Make sure to clear this out on sign out
+
+  # Got email working, but how do I send a unique link to verify identity?
+    # require 'securerandom'
+    # SecureRandom.urlsafe_base64
+    # Add a column to users table, and then verify against this too
+
+  # How to set up pagination and filters?
+    # https://github.com/amatsuda/kaminari
+    # Could do easier filters like his question board
+
+
+# Notes
+  # Home page stolen from: http://startbootstrap.com/templates/full-width-pics.html
 
 
 

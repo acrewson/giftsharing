@@ -42,7 +42,7 @@ Giftsharing::Application.configure do
   }
 
 
-  # Putting this in based on the rails security guides
-  config.force_ssl = true
+  # Putting this in based on the rails security guides --> Not doing this - wrecked havoc
+  # config.force_ssl = true
 
 end

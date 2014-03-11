@@ -1,17 +1,6 @@
 class SessionController < ApplicationController
 
-def login
 
-  current_user = User.find_by(:id => session[:user_id])
-
-  if current_user.present?
-    redirect_to "/mylists"
-  else
-    render 'login'
-  end
-
-
-end
 
 def authenticate
   user = User.find_by(:email => params[:email])
