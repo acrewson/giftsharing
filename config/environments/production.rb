@@ -77,4 +77,19 @@ Giftsharing::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  ActionMailer::Base.smtp_settings = {
+    address:              "smtp.gmail.com",
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            'giftsharingtest@gmail.com',
+    password:             'Sharethegift',
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
+
+
 end
