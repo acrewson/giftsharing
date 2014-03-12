@@ -2,8 +2,28 @@ require 'time'
 
 class ConnectionsController < ApplicationController
 
+  #####################################################################
+
+  # This will require that a user is logged in before executing any method in this controller
+
+  before_action :require_login
+
+  # The rails guides have "private" here - but this breaks things. Why?
+
+  def require_login
+    @current_user = User.find_by(:id => session[:user_id])
+    unless @current_user.present?
+      redirect_to "/", notice: "Please login to see this page"
+    end
+    true
+  end
+
+  #####################################################################
+
+
+
   def home
-    if session[:user_id].present?
+
       @current_user = User.find_by(:id => session[:user_id])
 
       # Find people I am connected to
@@ -14,11 +34,7 @@ class ConnectionsController < ApplicationController
       )
 
       @my_pending_connections = User.joins(:connection_requests).where("requested_user_id = ?", @current_user.id)
-    else
 
-      redirect_to "/login", notice: "Please login to see this page"
-
-    end
   end
 
   def connection_edit
@@ -69,7 +85,6 @@ class ConnectionsController < ApplicationController
 
   def request_response
     # Note - add a bunch of validation here later
-
 
     @current_user = User.find_by(:id => session[:user_id])
     cr = params["connec_response"]

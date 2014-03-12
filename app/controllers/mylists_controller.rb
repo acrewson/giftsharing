@@ -3,18 +3,34 @@ require 'time'
 
 class MylistsController < ApplicationController
 
+
+  #####################################################################
+
+  # This will require that a user is logged in before executing any method in this controller
+
+  before_action :require_login
+
+  # The rails guides have "private" here - but this breaks things. Why?
+
+  def require_login
+    @current_user = User.find_by(:id => session[:user_id])
+    unless @current_user.present?
+      redirect_to "/", notice: "Please login to see this page"
+    end
+    true
+  end
+
+  #####################################################################
+
+
+
   def home
     @current_user = User.find_by(:id => session[:user_id])
 
-    if @current_user.present?
+    @mylists = @current_user.lists.where("datedeleted is ?", nil)
 
-      @mylists = List.where("datedeleted is ? AND user_id = ?", nil, @current_user.id)
+    @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ?", @current_user.id, nil)
 
-      @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ?", @current_user.id, nil)
-
-    else
-      redirect_to "/login", notice: "Please login to view this page"
-    end
   end
 
 
@@ -26,7 +42,6 @@ class MylistsController < ApplicationController
     else
       list = List.new
     end
-
 
     list.listname = params[:listname]
     list.listtype_id = params[:listtype]
@@ -42,11 +57,26 @@ class MylistsController < ApplicationController
   def list_edit
     @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again"
+    end
+
   end
 
 
 
   def list_destroy
+
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again" and return
+    end
+
     list = List.find_by(id: params[:list_id])
     list.datedeleted = Time.now
     list.save
@@ -55,22 +85,19 @@ class MylistsController < ApplicationController
 
 
 
-
-
   def listContents
     @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
 
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "You do not have access to view that page." and return
 
-    if @selected_list.nil?
-      redirect_to "/mylists", notice: "Something went wrong, please try again"
-    elsif @current_user.present? && @current_user.id == @selected_list.user_id
-      @user_first_name = @current_user.firstname
+    else
 
-      @myitems = Item.where("list_id = ? AND date_deleted is ?", params[:list_id], nil)
+      @myitems = @selected_list.items.where("date_deleted is ?", nil)
 
       # Sharing with others
-      @shared_users = User.joins(:shared_lists).where("shared_lists.list_id = ?", @selected_list.id)
+      @shared_users = @selected_list.users
 
       @potential_users = User.select("cu.*").joins("
                 JOIN connections as c
@@ -83,11 +110,6 @@ class MylistsController < ApplicationController
                   AND sl.list_id = #{@selected_list.id}")
         .where("sl.list_id is ?", nil)
 
-
-    elsif @current_user.present? && @current_user.id != @selected_list.user_id
-      redirect_to "/mylists", notice: "You do not have access to view that page."
-    else
-      redirect_to "/login", notice: "Please login to view this page"
     end
 
 
@@ -95,6 +117,15 @@ class MylistsController < ApplicationController
 
 
   def item_add
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again" and return
+    end
+
+
     if Item.find_by(:id => params[:item_id]).present?
       i = Item.find_by(:id => params[:item_id])
     else
@@ -120,6 +151,14 @@ class MylistsController < ApplicationController
 
 
   def item_delete
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again" and return
+    end
+
     i = Item.find_by(id: params[:item_id])
     i.date_deleted = Time.now
     i.save
@@ -131,6 +170,14 @@ class MylistsController < ApplicationController
   def item_edit
     @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again" and return
+    end
+
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
     @selected_item = Item.find_by(id: params[:item_id])
   end
 
@@ -139,38 +186,71 @@ class MylistsController < ApplicationController
 
   def list_access_remove
 
-    # Come back and add security
+    # First make sure the user actually owns the list
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
+
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists", notice: "Something went wrong, please try again" and return
+    end
+
 
     # For each key that starts in remove, remove the access for that person
     params.keys.each do |q|
       if q[0,6] == "remove"
-        SharedList.find_by(:list_id => params[:list_id], :user_id => q[6,q.length - 6].to_i).destroy
+        removal_id = q[6,q.length - 6].to_i
+
+        # Check that user has access and is connected
+        c = @current_user.connections.find_by(:connected_user_id => removal_id)
+        sl = SharedList.find_by(:list_id => @selected_list, :user_id => removal_id)
+
+        if c.present? and sl.present?
+          SharedList.find_by(:list_id => params[:list_id], :user_id => removal_id).destroy
+        else
+          redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Something went wrong, please try again" and return
+        end
       end
     end
 
-    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Person removed"
+    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Access has been removed"
 
   end
 
 
   def list_access_add
 
-    # Come back and add security
+    # First make sure the user actually owns the list
+    @current_user = User.find_by(:id => session[:user_id])
+    @selected_list = List.find_by(id: params[:list_id])
 
-    # For each key that starts in remove, remove the access for that person
+    # Make sure user owns this list
+    if @current_user.lists.find_by(:id => @selected_list.id).nil?
+      redirect_to "/mylists/", notice: "Something went wrong, please try again" and return
+    end
+
+    # For each key that starts in add, add the access for that person
     params.keys.each do |q|
       if q[0,3] == "add"
-        z = SharedList.new
-        z.list_id = params[:list_id]
-        z.user_id = q[3,q.length - 3].to_i
-        z.shared_date = Time.now
-        z.save
+        add_id = q[3,q.length - 3].to_i
+
+        # Check addition is a connection (prevent url hacking)
+        c = @current_user.connections.find_by(:connected_user_id => add_id)
+
+        if c.present?
+          z = SharedList.new
+          z.list_id = params[:list_id]
+          z.user_id = add_id
+          z.shared_date = Time.now
+          z.save
+        else
+          redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Something went wrong, please try again" and return
+        end
 
       end
     end
 
-    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Person added"
-
+    redirect_to "/mylists/#{params[:list_id]}/contents", notice: "Access has been granted"
 
 
   end

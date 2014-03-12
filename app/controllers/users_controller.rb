@@ -1,10 +1,30 @@
 class UsersController < ApplicationController
 
+  #####################################################################
+
+  # This will require that a user is logged in before executing any method in this controller
+
+  before_action :require_login, :except => [:create_new_user]
+
+  # The rails guides have "private" here - but this breaks things. Why?
+
+  def require_login
+    @current_user = User.find_by(:id => session[:user_id])
+    unless @current_user.present?
+      redirect_to "/", notice: "Please login to see this page"
+    end
+    true
+  end
+
+  #####################################################################
+
+
+
+
   def create_new_user
 
     if User.find_by(:email => params[:email]).present?
-      redirect_to "/login", notice: "Sorry, that email is already taken"
-    elsif 0 == 1
+      redirect_to "/create_account", notice: "Sorry, that email is already taken"
     else
       z = User.new
       z.firstname = params[:firstname]
@@ -13,7 +33,7 @@ class UsersController < ApplicationController
       z.password = params[:pwd]
       z.save
 
-      redirect_to "/login", notice: "Your account has been created - please login."
+      redirect_to "/", notice: "Your account has been created - please login."
     end
 
   end
@@ -37,7 +57,33 @@ class UsersController < ApplicationController
     u = User.find_by(:id => @current_user.id)
     u.firstname = params[:firstname]
     u.lastname = params[:lastname]
-    u.birthdate = params[:birthdate]
+
+    # Process and validate the date
+    date_split = params[:birthdate].split("/")
+    bd_error = []
+
+    if date_split.length != 3
+      bd_error.push("Please enter a date in the format MM/DD/YYYY")
+    else
+
+      if date_split.first.to_i < 1 or date_split.first.to_i > 12
+        bd_error.push("Please enter a month between 1 and 12")
+      end
+
+      if date_split[1].to_i < 1 or date_split.first.to_i > 31
+        bd_error.push("Please enter a valid day of the month")
+      end
+
+      if date_split.last.length != 4
+        bd_error.push("Please enter a 4 digit year")
+      end
+    end
+
+    if bd_error.length == 0
+      u.birthdate = Date.strptime(params[:birthdate], "%m/%d/%Y")
+    end
+
+
     u.address = params[:address]
     u.city = params[:city]
     u.state_id = params[:state]
@@ -45,8 +91,13 @@ class UsersController < ApplicationController
     u.gender_id = params[:gender]
     u.save
 
+    if bd_error.length == 0
+      redirect_to "/myprofile", notice: "Your profile has been updated."
+    else
+      redirect_to "/myprofile", notice: "Check your birthday - there may have been an issue"
+    end
 
-    redirect_to "/myprofile", notice: "Your profile has been updated."
+
 
   end
 

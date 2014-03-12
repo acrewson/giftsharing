@@ -112,9 +112,6 @@ Giftsharing::Application.routes.draw do
 
 # Questions for Jeff
 
-  # Given most pages have authentication, is there a better than repeating the same logic everywhere?
-    # Before filters (actions) in the guides
-
   # How do I end the user's session when the tab/browser closes?
     # Create an encrypted cookie and then use logic: cookies.signed[:remember_me] = 5
     # Make sure to clear this out on sign out
@@ -140,19 +137,17 @@ Giftsharing::Application.routes.draw do
   # The remember me button doesn't do anything when logging in
   # Through email verification make sure user owns given email address
   # Figure out a way to hold the requests for users that haven't signed up yet
+  # Make the generated emails better
 
 # Cosmetics
-  # Create a home page
   # Some of my buttons in tables still not centered vertically
+  # Home page - don't show login form if user is logged in - way to access home page
 
 # Robustness
   # Add database constraints to the tables
-  # Go back and use #{} instead of adding strings
   # Go through HTML and use ruby tags instead where possible
-  # Make sure email address entries are legit
 
 # Security
-  # Go through everything and make sure URL paths can't be exploited
   # Make sure that someone who isn't logged in can't see anything
   # Learn about SQL injection and review everything
 
