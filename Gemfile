@@ -29,7 +29,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+# gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -40,7 +40,7 @@ group :doc do
 end
 
 # Add a gem file to let us see data in a table format
-gem "hirb"
+# gem "hirb"
 
 
 # Use ActiveModel has_secure_password
@@ -54,3 +54,6 @@ gem "hirb"
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem "quiet_assets", group: "development"
+gem "starter_generators", group: "development"
