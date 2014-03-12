@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
 
 def home
-  cookies.signed[:remember_me] = 5
 
   @current_user = User.find_by(:id => session[:user_id])
 
@@ -15,8 +14,6 @@ def home
   if params[:verify].present?
     @sec_verif = params[:verify]
   end
-
-
 
   render 'home_page'
 end

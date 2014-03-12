@@ -12,6 +12,12 @@ class UsersController < ApplicationController
 
   def require_login
     @current_user = User.find_by(:id => session[:user_id])
+
+    if @current_user.nil?
+      @current_user = User.find_by(:id => cookies.signed[:remember_me])
+      session[:user_id] = cookies.signed[:remember_me]
+    end
+
     unless @current_user.present?
       redirect_to "/", notice: "Please login to see this page"
     end

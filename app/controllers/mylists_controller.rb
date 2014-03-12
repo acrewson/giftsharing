@@ -14,6 +14,12 @@ class MylistsController < ApplicationController
 
   def require_login
     @current_user = User.find_by(:id => session[:user_id])
+
+    if @current_user.nil?
+      @current_user = User.find_by(:id => cookies.signed[:remember_me])
+      session[:user_id] = cookies.signed[:remember_me]
+    end
+
     unless @current_user.present?
       redirect_to "/", notice: "Please login to see this page"
     end
@@ -25,7 +31,7 @@ class MylistsController < ApplicationController
 
 
   def home
-    @current_user = User.find_by(:id => session[:user_id])
+    # @current_user = User.find_by(:id => session[:user_id])
 
     @mylists = @current_user.lists.where("datedeleted is ?", nil)
 

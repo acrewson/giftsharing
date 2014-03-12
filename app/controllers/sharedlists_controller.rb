@@ -11,13 +11,19 @@ class SharedlistsController < ApplicationController
 
     # The rails guides have "private" here - but this breaks things. Why?
 
-    def require_login
+  def require_login
     @current_user = User.find_by(:id => session[:user_id])
+
+    if @current_user.nil?
+      @current_user = User.find_by(:id => cookies.signed[:remember_me])
+      session[:user_id] = cookies.signed[:remember_me]
+    end
+
     unless @current_user.present?
       redirect_to "/", notice: "Please login to see this page"
     end
     true
-    end
+  end
 
 #####################################################################
 

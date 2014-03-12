@@ -110,23 +110,6 @@ Giftsharing::Application.routes.draw do
 ##########################################################################
 
 
-
-# Questions for Jeff
-
-  # How do I end the user's session when the tab/browser closes?
-    # Create an encrypted cookie and then use logic: cookies.signed[:remember_me] = 5
-    # Make sure to clear this out on sign out
-
-  # Got email working, but how do I send a unique link to verify identity?
-    # require 'securerandom'
-    # SecureRandom.urlsafe_base64
-    # Add a column to users table, and then verify against this too
-
-  # How to set up pagination and filters?
-    # https://github.com/amatsuda/kaminari
-    # Could do easier filters like his question board
-
-
 # Notes
   # Home page stolen from: http://startbootstrap.com/templates/full-width-pics.html
 
@@ -135,14 +118,17 @@ Giftsharing::Application.routes.draw do
 # To Do List
 
 # Functionality
-  # The remember me button doesn't do anything when logging in
+  # Send emails later - not during http request
   # Make the generated emails better
   # Trigger the updated_at field when any item changes
   # For users signing up b/c someone has invited them, skip the 2nd email authentication step
 
+
 # Cosmetics
   # Some of my buttons in tables still not centered vertically
-  # Home page - don't show login form if user is logged in - way to access home page
+  # Set up pagination and filters?
+    # https://github.com/amatsuda/kaminari
+    # Could do easier filters like his question board
 
 # Robustness
   # Add database constraints to the tables

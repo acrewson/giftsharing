@@ -13,6 +13,13 @@ def authenticate
     if user.password == params[:pwd]
       # This next line is where I name the session key that I'll use throughout
       session[:user_id] = user.id
+
+      if params[:remember_login] == "true"
+        cookies.signed[:remember_me] = {value: user.id, expires: 1.hour.from_now}
+
+      end
+
+
       redirect_to "/mylists"
     else
       redirect_to "/", notice: "Wrong password - give it another try"
@@ -67,6 +74,11 @@ end
 
 def destroy
   @current_user = User.find_by(:id => session[:user_id])
+
+  # if cookies.signed[:remember_me].present?
+    cookies.delete(:remember_me)
+  # end
+
 
   if @current_user.present?
     reset_session
