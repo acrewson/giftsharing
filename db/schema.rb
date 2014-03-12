@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306172301) do
+ActiveRecord::Schema.define(version: 20140312142000) do
 
   create_table "connection_requests", force: true do |t|
     t.integer  "user_id"
@@ -99,6 +99,25 @@ ActiveRecord::Schema.define(version: 20140306172301) do
 
   create_table "states", force: true do |t|
     t.string   "state_abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "temp_connection_requests", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "requested_temp_user_id"
+    t.integer  "connection_type_id"
+    t.datetime "request_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "temp_users", force: true do |t|
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "email"
+    t.string   "password"
+    t.string   "security_code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

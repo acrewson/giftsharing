@@ -1,5 +1,9 @@
 <div class="padding_bottom">
-  <form class="form-signin" role="form" action="/login/authenticate">
+  <% if @sec_verif.present? %>
+    <form class="form-signin" role="form" action="/login/authenticate/<%= @sec_verif %>">
+  <% else %>
+    <form class="form-signin" role="form" action="/login/authenticate">
+  <% end %>
     <h2 class="form-signin-heading center_text">Please sign in</h2>
     <div class="padding_bottom_10">
       <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>

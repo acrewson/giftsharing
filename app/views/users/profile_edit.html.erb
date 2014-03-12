@@ -17,7 +17,7 @@
             <tr>
               <td style="vertical-align: middle;">First Name</td>
               <td style="vertical-align: middle;">
-                <input name = "firstname" type="text" class="form-control"
+                <input name = "firstname" type="text" class="form-control" required
                   <% if @current_user.firstname.present? %>
                     value="<%= @current_user.firstname %>"
                   <% else %>
@@ -29,7 +29,7 @@
             <tr>
               <td style="vertical-align: middle;">Last Name</td>
               <td style="vertical-align: middle;">
-                <input name = "lastname" type="text" class="form-control"
+                <input name = "lastname" type="text" class="form-control" required
                   <% if @current_user.lastname.present? %>
                     value="<%= @current_user.lastname %>"
                   <% else %>
@@ -41,7 +41,7 @@
             <tr>
               <td style="vertical-align: middle;">Birthday</td>
               <td style="vertical-align: middle;">
-                <input name = "birthdate" type="text" class="form-control"
+                <input name = "birthdate" type="text" class="form-control" required
                   <% if @current_user.birthdate.present? %>
                     <% cur_month = "0" + @current_user.birthdate.month.to_s %>
                     <% cur_day = "0" + @current_user.birthdate.day.to_s %>
@@ -80,13 +80,16 @@
             <tr>
               <td>State</td>
               <td>
-                <select name="state" id="state">
+                <select name="state" id="state" required>
+                  <% if @current_user.state_id.nil? %>
+                    <option selected="selected" value=""></option>
+                  <% end %>
                   <% State.all.each do |s| %>
-                    <% if s.id == @current_user.state_id %>
-                      <option selected="selected" value="<%= s.id %>"><%= s.state_abbrev %></option>
-                    <% else %>
-                      <option value="<%= s.id %>"><%= s.state_abbrev %></option>
-                    <% end %>
+                      <% if s.id == @current_user.state_id %>
+                        <option selected="selected" value="<%= s.id %>"><%= s.state_abbrev %></option>
+                      <% else %>
+                        <option value="<%= s.id %>"><%= s.state_abbrev %></option>
+                      <% end %>
                   <% end %>
                 </select>
               </td>
@@ -94,7 +97,7 @@
             <tr>
               <td style="vertical-align: middle;">Zip Code</td>
               <td style="vertical-align: middle;">
-                <input name = "zip" type="text" class="form-control"
+                <input name = "zip" type="text" class="form-control" required
                   <% if @current_user.zip.present? %>
                     value="<%= @current_user.zip %>"
                   <% else %>
@@ -106,7 +109,10 @@
             <tr>
               <td>Gender</td>
               <td>
-                <select name="gender" id="gender">
+                <select name="gender" id="gender" required>
+                  <% if @current_user.gender_id.nil? %>
+                    <option selected="selected" value=""></option>
+                  <% end %>
                   <% Gender.all.each do |g| %>
                     <% if g.id == @current_user.gender_id %>
                       <option selected="selected" value="<%= g.id %>"><%= g.gender_name %></option>

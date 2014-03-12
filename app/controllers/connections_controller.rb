@@ -1,4 +1,5 @@
 require 'time'
+require 'securerandom'
 
 class ConnectionsController < ApplicationController
 
@@ -182,8 +183,32 @@ class ConnectionsController < ApplicationController
 
       redirect_to "/connections", notice: "You are already connected to #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")."}"
 
-    elsif User.find_by(:email => params[:request_email]).nil?
+    elsif requested_user.nil?
 
+      # Create a temp user for this person
+      if TempUser.find_by(:email => params[:request_email]).present?
+        z = TempUser.find_by(:email => params[:request_email])
+      else
+        z = TempUser.new
+        z.email = params[:request_email]
+        # This next one is just a placeholder, user not sent this for now
+        z.security_code = SecureRandom.urlsafe_base64
+        z.save
+      end
+
+      # Add this relationship to the temp_user_requests table
+      if TempConnectionRequest.find_by(:user_id => @current_user.id, :requested_temp_user_id => z.id).nil?
+
+        trc = TempConnectionRequest.new
+        trc.user_id = @current_user.id
+        trc.requested_temp_user_id = z.id
+        trc.connection_type_id = params[:connection_type]
+        trc.request_date = Time.now
+        trc.save
+
+      end
+
+      # Send the invite email
       UserMailer.connection_invite_email(@current_user, params[:request_email]).deliver
 
       redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."

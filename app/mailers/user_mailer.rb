@@ -1,6 +1,16 @@
 class UserMailer < ActionMailer::Base
   default from: "giftsharingtest@gmail.com"
 
+
+
+ def account_create_verify_email(temp_user)
+    @temp_user = temp_user
+    @url  = "http://localhost:3000/?verify=#{@temp_user.security_code}"
+    mail(to: @temp_user.email, subject: "Welcome to Gift Sharing, #{@temp_user.firstname}!")
+  end
+
+
+
  def connection_request_email(current_user, requested_user)
     @current_user = current_user
     @requested_user = requested_user

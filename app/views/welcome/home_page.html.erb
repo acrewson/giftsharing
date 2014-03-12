@@ -1,19 +1,68 @@
 <div class="container">
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-8">
             <%= image_tag "gift_boxes.jpg", :width => 600, :class => "img-responsive img-rounded center_image" %>
         </div>
         <div class="col-lg-3">
-        <%= render 'login_form' %>
+            <% if @current_user.nil? %>
+                <%= render 'login_form' %>
+            <% else %>
+                <div class="panel panel-info pagination-centered">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">Recent Activity</h4>
+                  </div>
+                  <div class="panel-body">
+                    <% if @my_recent_lists.present? %>
+                        <h4>Your lists...</h4>
+                        <div class="padding_bottom">
+                          <table>
+                            <thead></thead>
+                            <tbody>
+                              <% @my_recent_lists.each do |list| %>
+                              <tr>
+                              <td>
+                                <a href="/mylists/<%= list.id %>/contents"><%= list.listname %></a>
+                              </td>
+                              </tr>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </div>
+                    <% end %>
+                    <% if @my_recent_shared_lists.present? %>
+                    <h4>Shared with you...</h4>
+                        <div class="padding_bottom">
+                          <table>
+                            <thead></thead>
+                            <tbody>
+                              <% @my_recent_shared_lists.each do |list| %>
+                              <tr>
+                              <td>
+                                <a href="/sharedlists/<%= list.id %>/contents"><%= list.listname %></a>
+                              </td>
+                              </tr>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </div>
+                    <% end %>
+                    <% if @my_recent_lists.count == 0 and @my_recent_shared_lists.count == 0 %>
+                        <p>Looks like you haven't taken the plunge yet. Get started today!</p>
+                    <% end %>
+                    <a class="btn btn-md btn-primary" href="/mylists">List home</a>
+                  </div>
+                </div>
+            <% end %>
         </div>
+        <div class="col-lg-1"></div>
     </div>
 
     <hr>
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="well text-center">
-                Gift giving has never been this easy
+            <div class="well text-center text_size_20">
+                <strong>Gift giving has never been this easy</strong>
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ Giftsharing::Application.routes.draw do
   # LOGGING IN / OUT
 
     get "/login/authenticate" => "session#authenticate"
+    get "/login/authenticate/:sec_verif" => "session#authenticate"
     get "/logout" => "session#destroy"
 
 ##########################################################################
@@ -135,9 +136,9 @@ Giftsharing::Application.routes.draw do
 
 # Functionality
   # The remember me button doesn't do anything when logging in
-  # Through email verification make sure user owns given email address
-  # Figure out a way to hold the requests for users that haven't signed up yet
   # Make the generated emails better
+  # Trigger the updated_at field when any item changes
+  # For users signing up b/c someone has invited them, skip the 2nd email authentication step
 
 # Cosmetics
   # Some of my buttons in tables still not centered vertically
@@ -148,7 +149,6 @@ Giftsharing::Application.routes.draw do
   # Go through HTML and use ruby tags instead where possible
 
 # Security
-  # Make sure that someone who isn't logged in can't see anything
   # Learn about SQL injection and review everything
 
 

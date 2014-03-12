@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class UsersController < ApplicationController
 
   #####################################################################
@@ -26,14 +28,23 @@ class UsersController < ApplicationController
     if User.find_by(:email => params[:email]).present?
       redirect_to "/create_account", notice: "Sorry, that email is already taken"
     else
-      z = User.new
+
+      if TempUser.find_by(:email => params[:email]).present?
+        z = TempUser.find_by(:email => params[:email])
+      else
+        z = TempUser.new
+      end
+
       z.firstname = params[:firstname]
       z.lastname = params[:lastname]
       z.email = params[:email]
       z.password = params[:pwd]
+      z.security_code = SecureRandom.urlsafe_base64
       z.save
 
-      redirect_to "/", notice: "Your account has been created - please login."
+      UserMailer.account_create_verify_email(z).deliver
+
+      redirect_to "/", notice: "Please check your email and follow the link to complete your registration."
     end
 
   end

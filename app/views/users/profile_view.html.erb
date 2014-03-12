@@ -13,14 +13,62 @@
           </tr>
         </thead>
         <tbody>
-            <tr><td>First Name</td><td><%= @current_user.firstname %></td></tr>
-            <tr><td>Last Name</td><td><%= @current_user.lastname %></td></tr>
-            <tr><td>Birthday</td><td><%= @current_user.birthdate.strftime("%B %d, %Y") %></td></tr>
-            <tr><td>Street Address</td><td><%= @current_user.address %></td></tr>
-            <tr><td>City</td><td><%= @current_user.city %></td></tr>
-            <tr><td>State</td><td><%= @current_user.state.state_abbrev %></td></tr>
-            <tr><td>Zip Code</td><td><%= @current_user.zip %></td></tr>
-            <tr><td>Gender</td><td><%= @current_user.gender.gender_name %></td></tr>
+            <tr><td>First Name</td>
+              <td>
+                <% if @current_user.firstname.present? %>
+                  <%= @current_user.firstname %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>Last Name</td>
+              <td>
+                <% if @current_user.lastname.present? %>
+                  <%= @current_user.lastname %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>Birthday</td>
+              <td>
+                <% if @current_user.birthdate.present? %>
+                  <%= @current_user.birthdate.strftime("%B %d, %Y") %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>Street Address</td>
+              <td>
+                <% if @current_user.address.present? %>
+                  <%= @current_user.address %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>City</td>
+              <td>
+                <% if @current_user.city.present? %>
+                  <%= @current_user.city %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>State</td>
+              <td>
+                <% if @current_user.state.present? %>
+                  <%= @current_user.state.state_abbrev %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>Zip Code</td>
+              <td>
+                <% if @current_user.zip.present? %>
+                  <%= @current_user.zip %>
+                <% end %>
+              </td>
+            </tr>
+            <tr><td>Gender</td>
+              <td>
+                <% if @current_user.gender.present? %>
+                  <%= @current_user.gender.gender_name %>
+                <% end %>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>
