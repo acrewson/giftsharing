@@ -1,3 +1,9 @@
 class RequestType < ActiveRecord::Base
-  has_many :items
+  # Associations
+    has_many :items
+
+  # Validations
+    validates :request_type_description, presence: true
+
+
 end

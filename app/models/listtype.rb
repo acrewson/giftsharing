@@ -1,4 +1,8 @@
 class Listtype < ActiveRecord::Base
-  has_many :lists
+  # Associations
+    has_many :lists
+
+  # Validations
+    validates :listtype, presence: true
 
 end

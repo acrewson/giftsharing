@@ -1,4 +1,12 @@
 class ConnectionRequest < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :connection_type
+  # Associations
+    belongs_to :user
+    belongs_to :connection_type
+
+  # Validations
+    validates :user_id, presence: true
+    validates :requested_user_id, presence: true
+    validates :connection_type_id, presence: true
+    validates :request_date, presence: true
+
 end

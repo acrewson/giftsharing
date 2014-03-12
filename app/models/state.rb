@@ -1,3 +1,4 @@
 class State < ActiveRecord::Base
-  has_many :users
+  # Associations
+    has_many :users
 end

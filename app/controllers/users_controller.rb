@@ -46,11 +46,18 @@ class UsersController < ApplicationController
       z.email = params[:email]
       z.password = params[:pwd]
       z.security_code = SecureRandom.urlsafe_base64
-      z.save
 
-      UserMailer.account_create_verify_email(z).deliver
+      if z.valid? == true
+        z.save
 
-      redirect_to "/", notice: "Please check your email and follow the link to complete your registration."
+        UserMailer.account_create_verify_email(z).deliver
+
+        redirect_to "/", notice: "Please check your email and follow the link to complete your registration."
+
+      else
+        redirect_to "/create_account", notice: "Please enter valid inputs"
+      end
+
     end
 
   end

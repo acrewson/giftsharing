@@ -1,3 +1,8 @@
 class Gender < ActiveRecord::Base
-  has_many :users
+  # Associations
+    has_many :users
+
+  # Validations
+    validates :gender_name, presence: true
+
 end

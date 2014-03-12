@@ -150,18 +150,50 @@ class ConnectionsController < ApplicationController
 
   def send_request
     @current_user = User.find_by(:id => session[:user_id])
-
-    # Make sure the user isn't already connected to this person
-
-    # Make sure this user exists, if not, add to pending table, generate email inviting them.
-
-    # Make sure there isn't a request pending to this email already
-
-    # Given this email is registered, add a row to the requests table
-
     requested_user = User.find_by(:email => params[:request_email])
 
-    if requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil? && @current_user.connection_requests.find_by(:requested_user_id => requested_user.id).nil?
+    if requested_user.nil?
+      requested_user_id = -99
+    else
+      requested_user_id = requested_user.id
+    end
+
+
+    ########## Sanity checks ##############
+
+    # Is not yourself
+    is_self = 0
+    if @current_user.id == requested_user_id
+      is_self = 1
+    end
+
+    # Is not already a connection
+    is_already_connection = 0
+    if @current_user.connections.find_by(:connected_user_id => requested_user_id).present?
+      is_already_connection = 1
+    end
+
+    # There isn't already a pending request out to this person from you (and they are a member)
+    is_already_pending_request_from_you = 0
+    if @current_user.connection_requests.find_by(:requested_user_id => requested_user_id)
+      is_already_pending_request_from_you = 1
+    end
+
+    # There isn't already a pending request out to this person from you (and they are NOT a member)
+    is_already_pending_request_from_you_temp = 0
+    if @current_user.temp_connection_requests.find_by(:requested_temp_user_id => requested_user_id)
+      is_already_pending_request_from_you_temp = 1
+    end
+
+    # You don't have a pending request already from them
+    is_already_pending_request_to_you = 0
+    if ConnectionRequest.find_by(:user_id => requested_user_id, :requested_user_id => @current_user.id).present?
+      is_already_pending_request_to_you = 1
+    end
+
+    ################################
+
+    if requested_user.present? and is_self == 0 and is_already_connection == 0 and is_already_pending_request_from_you ==0 and is_already_pending_request_to_you ==0 and is_already_pending_request_from_you_temp == 0
 
       cr = ConnectionRequest.new
       cr.user_id = @current_user.id
@@ -174,20 +206,24 @@ class ConnectionsController < ApplicationController
 
       redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
 
-    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).nil? && @current_user.connection_requests.find_by(:requested_user_id => requested_user.id).present?
+    elsif requested_user.present? and is_self == 0 and is_already_connection == 0 and is_already_pending_request_from_you ==1 and is_already_pending_request_to_you ==0 and is_already_pending_request_from_you_temp == 0
 
       redirect_to "/connections", notice: "There is already a request pending for #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")"}."
 
 
-    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).nil? && ConnectionRequest.find_by(:user_id => requested_user.id, :requested_user_id => session[:user_id]).present?
+    elsif requested_user.present? and is_self == 0 and is_already_connection == 0 and is_already_pending_request_from_you ==0 and is_already_pending_request_to_you ==1 and is_already_pending_request_from_you_temp == 0
 
 
-    redirect_to "/connections", notice: "#{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ") has already invited you to connect. Respond below!"}"
+      redirect_to "/connections", notice: "#{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ") has already invited you to connect. Respond below!"}"
 
 
-    elsif requested_user.present? && @current_user.connections.find_by(:connected_user_id => requested_user.id).present?
+    elsif requested_user.present? and is_self == 0 and is_already_connection == 1
 
       redirect_to "/connections", notice: "You are already connected to #{requested_user.firstname + " " + requested_user.lastname + " (" + requested_user.email + ")."}"
+
+    elsif is_self == 1
+
+      redirect_to "/connections", notice: "Please enter someone else's email address"
 
     elsif requested_user.nil?
 
@@ -197,8 +233,14 @@ class ConnectionsController < ApplicationController
       else
         z = TempUser.new
         z.email = params[:request_email]
-        # This next one is just a placeholder, user not sent this for now
+        # This next one is just a placeholder for now, user not sent this for now
         z.security_code = SecureRandom.urlsafe_base64
+
+        # Placeholders
+        z.firstname = "Placeholder"
+        z.lastname = "Placeholder"
+        z.password = "#{SecureRandom.urlsafe_base64[0,15]}"
+
         z.save
       end
 
@@ -212,12 +254,15 @@ class ConnectionsController < ApplicationController
         trc.request_date = Time.now
         trc.save
 
+        # Send the invite email
+        UserMailer.connection_invite_email(@current_user, params[:request_email]).deliver
+
+        redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
+
+      else
+        redirect_to "/connections", notice: "You have already invited #{params[:request_email]} to join previously"
       end
 
-      # Send the invite email
-      UserMailer.connection_invite_email(@current_user, params[:request_email]).deliver
-
-      redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
     end
 
   end
