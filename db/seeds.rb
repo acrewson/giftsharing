@@ -390,6 +390,9 @@ i.each do |item|
   it.save
 end
 
+
+
+
 Purchase.destroy_all
 
 p = [
@@ -438,6 +441,9 @@ q.push("Other")
 q.each do |r|
     p = ConnectionType.new
     p.connection_description = r
+    p.inverse_male_connection_id = 99999
+    p.inverse_female_connection_id = 99999
+    p.inverse_unknown_connection_id = 99999
     p.save
 end
 
