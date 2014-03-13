@@ -18,6 +18,8 @@ class UsersController < ApplicationController
       session[:user_id] = cookies.signed[:remember_me]
     end
 
+    @num_pending_req = ConnectionRequest.where("requested_user_id = ?", @current_user.id).count
+
     unless @current_user.present?
       redirect_to "/", notice: "Please login to see this page"
     end

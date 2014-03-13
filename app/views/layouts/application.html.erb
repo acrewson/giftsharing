@@ -153,7 +153,16 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><%= link_to "List Home", "/mylists"%></li>
+          <% if @num_pending_req > 0 %>
+            <li>
+              <a href="/connections">
+                <span class="badge pull-right"><%= @num_pending_req %></span>
+                <span class="padding_right_10">My Connections</span>
+              </a>
+            </li>
+          <% else %>
           <li><%= link_to "My Connections", "/connections"%></li>
+          <% end %>
           <li><%= link_to "My Purchases", "/purchases"%></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

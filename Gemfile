@@ -40,7 +40,7 @@ group :doc do
 end
 
 # Add a gem file to let us see data in a table format
-# gem "hirb"
+gem "hirb"
 
 
 # Use ActiveModel has_secure_password
