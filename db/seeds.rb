@@ -25,8 +25,8 @@ User.destroy_all
 
 u = [
   {
-    :firstname => "Andy",
-    :lastname => "Crewson",
+    :firstname => "John",
+    :lastname => "Doe",
     :birthdate => "10/10/1986",
     :address => "1000 Main St Apt 1",
     :city => "Evanston",
