@@ -1,5 +1,32 @@
 class WelcomeController < ApplicationController
 
+
+  #####################################################################
+
+  # This will figure out the number of connections if someone is logged in
+
+  before_action :check_login
+
+  def check_login
+    @current_user = User.find_by(:id => session[:user_id])
+
+    if @current_user.nil?
+      @current_user = User.find_by(:id => cookies.signed[:remember_me])
+      session[:user_id] = cookies.signed[:remember_me]
+    end
+
+    if @current_user.present?
+      @num_pending_req = ConnectionRequest.where("requested_user_id = ?", @current_user.id).count
+    end
+
+    true
+  end
+
+  #####################################################################
+
+
+
+
 def home
 
   @current_user = User.find_by(:id => session[:user_id])
