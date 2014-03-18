@@ -5,7 +5,6 @@
               <th></th>
               <th>Item Requested</th>
               <th class="center_text">Quantity Requested</th>
-              <th>Request Type</th>
             </tr>
           </thead>
 
@@ -18,12 +17,16 @@
                   </span>
                   <span><a href="/mylists/<%= @selected_list.id %>/contents/edit/<%= i.id %>"><i class="fa fa-pencil text_color_black"></i></a></span>
                 </td>
-                <td><a target="_blank" href="<%= i.url %>"><%= i.description %></a></td>
+                <td><span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.description %></a></span><i class="fa fa-chevron-down"></i></td>
                 <td class="center_text" width="100"><%= i.quantity_requested %></td>
-                <td><%= i.request_type.request_type_description %></td>
               </tr>
               <tr>
-                <td colspan="4"><div class="panel-body"><%= i.comments %></div></td>
+                <td colspan="4">
+                  <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><%= i.request_type.request_type_description %></div>
+                  <div class="panel-body">
+                    <%= i.comments %>
+                  </div>
+                </td>
               </tr>
               <% end %>
           </tbody>
