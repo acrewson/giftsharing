@@ -1,5 +1,5 @@
       <% if @myitems.present? %>
-        <table class="table table-striped table-bordered table_hover">
+        <table id="my_list_table" class="table table-striped table-bordered table_hover">
           <thead>
             <tr class="blue_white_table_header">
               <th></th>
@@ -22,6 +22,9 @@
                 <td class="center_text" width="100"><%= i.quantity_requested %></td>
                 <td><%= i.request_type.request_type_description %></td>
               </tr>
+              <tr>
+                <td colspan="4"><div class="panel-body"><%= i.comments %></div></td>
+              </tr>
               <% end %>
           </tbody>
         </table>
@@ -39,4 +42,28 @@
           </div>
         </div>
       <% end %>
+
+<!-- Javascript -->
+  <script>
+    $(function() {
+      jQuery("#add_review").on("click", function() {
+        $("#review_form").slideDown();
+        $("#title").focus();
+      });
+    })
+
+    $(document).ready(function(){
+        $("#my_list_table tr:odd").addClass("odd");
+        $("#my_list_table tr:not(.odd)").hide();
+        $("#my_list_table tr:first-child").show();
+
+        $("#my_list_table tr.odd").click(function(){
+            $(this).next("tr").toggle();
+            $(this).find(".arrow").toggleClass("up");
+        });
+        //$("#report").jExpand();
+    });
+
+  </script>
+
 
