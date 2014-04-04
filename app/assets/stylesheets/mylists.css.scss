@@ -1,3 +1,11 @@
 // Place all the styles related to the mylists controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// The up/down arrows are triggered by flipping between these classes
+#my_list_table span.expand {background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
+
+#my_list_table span.up { background-position:0px 0px;}
+
+
+
