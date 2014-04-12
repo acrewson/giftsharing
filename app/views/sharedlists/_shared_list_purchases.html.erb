@@ -12,8 +12,8 @@
       <tr>
         <th></th>
         <th>Item Requested</th>
-        <th>Quantity Claimed</th>
-        <th>Date Claimed</th>
+        <th class="center_text">Quantity Claimed</th>
+        <th class="center_text">Date Claimed</th>
       </tr>
     </thead>
     <tbody>
@@ -25,8 +25,8 @@
             </span>
           </td>
           <td><a target="_blank" href="<%= i.item.url %>"><%= i.item.description %></a></td>
-          <td><%= i.quantity_purchased %></td>
-          <td><%= i.date_purchased.strftime("%B %d, %Y") %></td>
+          <td style="vertical-align: middle;" width="100" class="center_text"><%= i.quantity_purchased %></td>
+          <td style="vertical-align: middle;" class="center_text"><%= i.date_purchased.strftime("%B %d, %Y") %></td>
         </tr>
       <% end %>
     </tbody>
