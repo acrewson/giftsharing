@@ -23,8 +23,6 @@
                 <td>
                 <span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.description %></a></span>
                 <span class="pull-right expand"></span>
-
-
                 </td>
                 <td class="center_text" width="100"><%= i.quantity_requested %></td>
               </tr>
@@ -56,12 +54,6 @@
 
 <!-- Javascript -->
   <script>
-    $(function() {
-      jQuery("#add_review").on("click", function() {
-        $("#review_form").slideDown();
-        $("#title").focus();
-      });
-    })
 
     $(document).ready(function(){
         $("#my_list_table tr:odd").addClass("odd");

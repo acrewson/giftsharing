@@ -10,7 +10,7 @@ def authenticate
     redirect_to "/logout", notice: "Something went wrong - please try again."
 
   elsif user.present?
-    if user.password == params[:pwd]
+    if user.password == params[:password]
       # This next line is where I name the session key that I'll use throughout
       session[:user_id] = user.id
 
