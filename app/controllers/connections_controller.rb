@@ -23,7 +23,7 @@ class ConnectionsController < ApplicationController
 
   def home
 
-      @current_user = User.find_by(:id => session[:user_id])
+      @current_user = current_user
 
       # Find people I am connected to
       @my_connections = User.select("users.*, connections.connection_type_id").joins("
@@ -37,7 +37,7 @@ class ConnectionsController < ApplicationController
   end
 
   def connection_edit
-      @current_user = User.find_by(:id => session[:user_id])
+      @current_user = current_user
 
       @my_connections = User.select("users.*, connections.connection_type_id").joins("
           JOIN connections
@@ -47,7 +47,7 @@ class ConnectionsController < ApplicationController
   end
 
   def connection_update
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
 
     # Parse the connection id out of the value
     {:connection_2_type=>"2", :connection_3_type=>"3", :connection_7_type=>"8", :connection_117_type=> "9"}
@@ -67,7 +67,7 @@ class ConnectionsController < ApplicationController
   end
 
   def connection_delete
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     # Add some security checks
 
     # Delete the primary relationship
@@ -85,7 +85,7 @@ class ConnectionsController < ApplicationController
   def request_response
     # Note - add a bunch of validation here later
 
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     cr = params["connec_response"]
 
     # Find the connected user based on which button was clicked
@@ -141,7 +141,7 @@ class ConnectionsController < ApplicationController
 
 
   def send_request
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     requested_user = User.find_by(:email => params[:request_email])
 
     if requested_user.nil?
