@@ -7,24 +7,14 @@ class ConnectionsController < ApplicationController
 
   # This will require that a user is logged in before executing any method in this controller
 
-  before_action :require_login
+  before_action :authenticate_user!
 
   # The rails guides have "private" here - but this breaks things. Why?
 
-  def require_login
-    @current_user = User.find_by(:id => session[:user_id])
+  before_action :num_requests
 
-    if @current_user.nil?
-      @current_user = User.find_by(:id => cookies.signed[:remember_me])
-      session[:user_id] = cookies.signed[:remember_me]
-    end
-
-    @num_pending_req = ConnectionRequest.where("requested_user_id = ?", @current_user.id).count
-
-    unless @current_user.present?
-      redirect_to "/", notice: "Please login to see this page"
-    end
-    true
+  def num_requests
+    @num_pending_req = ConnectionRequest.where("requested_user_id = ?", current_user.id).count
   end
 
   #####################################################################

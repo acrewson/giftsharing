@@ -1,7 +1,8 @@
 Giftsharing::Application.routes.draw do
 
-  root "welcome#home"
+  root to: "welcome#home"
 
+  devise_for :users
 ##########################################################################
 
   # LOGGING IN / OUT

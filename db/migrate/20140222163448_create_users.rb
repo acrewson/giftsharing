@@ -8,8 +8,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :city
       t.integer :state_id
       t.string :zip
-      t.string :email
-      t.string :password
+      t.string :email,              null: false, default: ""
+      # t.string :password
       t.integer :gender_id
 
       t.timestamps

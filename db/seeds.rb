@@ -33,7 +33,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "IL").id,
     :zip => "60201",
     :email => "test@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -45,7 +46,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "MA").id,
     :zip => "12345",
     :email => "test2@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -57,7 +59,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "GA").id,
     :zip => "23456",
     :email => "test3@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -69,7 +72,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "OH").id,
     :zip => "43560",
     :email => "test4@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -81,7 +85,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "VA").id,
     :zip => "22209",
     :email => "test5@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -93,7 +98,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "NC").id,
     :zip => "22209",
     :email => "test6@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -105,7 +111,8 @@ u = [
     :state_id => State.find_by(state_abbrev: "OR").id,
     :zip => "45678",
     :email => "test7@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Male"),
   },
   {
@@ -117,24 +124,27 @@ u = [
     :state_id => State.find_by(state_abbrev: "IL").id,
     :zip => "60201",
     :email => "julia@email.com",
-    :password => "password",
+    :encrypted_password => "password",
+    :password_confirmation => "password",
     :gender => Gender.find_by(:gender_name => "Female"),
   }
 ]
 
 
-u.each do |user|
+u.each do |x|
   a = User.new
-  a.firstname = user[:firstname]
-  a.lastname = user[:lastname]
-  a.birthdate = user[:birthdate]
-  a.address = user[:address]
-  a.city = user[:city]
-  a.state_id = user[:state_id]
-  a.zip = user[:zip]
-  a.email = user[:email]
-  a.password = user[:password]
-  a.gender = user[:gender]
+  a.firstname = x[:firstname]
+  a.lastname = x[:lastname]
+  a.birthdate = x[:birthdate]
+  a.address = x[:address]
+  a.city = x[:city]
+  a.state_id = x[:state_id]
+  a.zip = x[:zip]
+  a.email = x[:email]
+  a.password = x[:encrypted_password]
+  a.password_confirmation = x[:password_confirmation]
+  a.gender = x[:gender]
+  a.sign_in_count = 0
   a.save
 end
 

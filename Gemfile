@@ -57,3 +57,6 @@ gem 'bcrypt-ruby'
 
 gem "quiet_assets", group: "development"
 gem "starter_generators", group: "development"
+
+
+gem 'devise'

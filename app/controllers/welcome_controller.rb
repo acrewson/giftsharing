@@ -5,31 +5,20 @@ class WelcomeController < ApplicationController
 
   # This will figure out the number of connections if someone is logged in
 
-  before_action :check_login
+  before_action :num_requests
 
-  def check_login
-    @current_user = User.find_by(:id => session[:user_id])
-
-    if @current_user.nil?
-      @current_user = User.find_by(:id => cookies.signed[:remember_me])
-      session[:user_id] = cookies.signed[:remember_me]
+  def num_requests
+    if current_user.present?
+      @num_pending_req = ConnectionRequest.where("requested_user_id = ?", current_user.id).count
     end
-
-    if @current_user.present?
-      @num_pending_req = ConnectionRequest.where("requested_user_id = ?", @current_user.id).count
-    end
-
     true
   end
 
   #####################################################################
 
+  def home
 
-
-
-def home
-
-  @current_user = User.find_by(:id => session[:user_id])
+  @current_user = current_user
 
   if @current_user.present?
     @my_recent_lists = @current_user.lists.where("datedeleted is ?", nil).order("updated_at desc").limit(2)
@@ -47,8 +36,6 @@ end
 
 
 def create_account
-
-  current_user = User.find_by(:id => session[:user_id])
 
   if current_user.present?
     redirect_to "/mylists"

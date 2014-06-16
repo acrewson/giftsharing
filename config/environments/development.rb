@@ -45,4 +45,6 @@ Giftsharing::Application.configure do
   # Putting this in based on the rails security guides --> Not doing this - wrecked havoc
   # config.force_ssl = true
 
+  # config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
 end

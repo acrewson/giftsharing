@@ -152,7 +152,7 @@
       <%= link_to "Gift Sharing!", "/", :class => "navbar-brand" %>
     </div>
 
-    <% user = User.find_by(:id => session[:user_id]) %>
+    <% user = current_user %>
     <% if user.present? %>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
@@ -172,7 +172,7 @@
         <ul class="nav navbar-nav navbar-right">
 
           <li><a href="/myprofile">My profile</a></li>
-          <li><a href="/logout">Sign Out</a></li>
+          <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     <% end %>
@@ -185,6 +185,9 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <%= notice %>
       </div>
+    <% end %>
+    <% if alert %>
+      <p class="alert alert-danger"><%= alert %></p>
     <% end %>
 
     <%= yield %>
