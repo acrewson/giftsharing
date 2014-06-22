@@ -3,8 +3,8 @@ class CreateTempUsers < ActiveRecord::Migration
     create_table :temp_users do |t|
       t.string :firstname
       t.string :lastname
-      t.string :email
-      t.string :password
+      # t.string :email,              null: false, default: ""
+      # t.string :password
       t.string :security_code
       t.timestamps
     end

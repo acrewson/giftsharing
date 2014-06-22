@@ -2,8 +2,8 @@
   <%= link_to "Sign in", root_url %><br />
 <% end -%>
 
-<%- if Devise.mappings[:user].registerable? && controller_name != 'registrations' %>
-  <%= link_to "Sign up", new_registration_path(:user) %><br />
+<%- if Devise.mappings[:temp_user].registerable? && controller_name != 'registrations' %>
+  <%= link_to "Sign up", new_registration_path(:temp_user) %><br />
 <% end -%>
 
 <%- if Devise.mappings[:user].recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>

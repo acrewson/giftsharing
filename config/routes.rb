@@ -2,7 +2,10 @@ Giftsharing::Application.routes.draw do
 
   root to: "welcome#home"
 
-  devise_for :users, :controllers => { registrations: 'registrations' }
+
+  devise_for :temp_users, :controllers => { registrations: 'registrations' }
+  devise_for :users, :controllers => {sessions: 'sessions'}
+
 ##########################################################################
 
   # LOGGING IN / OUT
