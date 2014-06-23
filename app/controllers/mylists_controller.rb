@@ -24,7 +24,7 @@ class MylistsController < ApplicationController
 
 
   def home
-    # @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
 
     @mylists = current_user.lists.where("datedeleted is ?", nil)
 
@@ -45,7 +45,7 @@ class MylistsController < ApplicationController
     list.listname = params[:listname]
     list.listtype_id = params[:listtype]
     list.eventdate = Date.strptime(params[:eventdate], "%m/%d/%Y")
-    list.user_id = session[:user_id]
+    list.user_id = current_user.id
     list.save
 
     redirect_to "/mylists"
@@ -54,7 +54,7 @@ class MylistsController < ApplicationController
 
 
   def list_edit
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -68,7 +68,7 @@ class MylistsController < ApplicationController
 
   def list_destroy
 
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -85,7 +85,7 @@ class MylistsController < ApplicationController
 
 
   def listContents
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     if @current_user.lists.find_by(:id => @selected_list.id).nil?
@@ -116,7 +116,7 @@ class MylistsController < ApplicationController
 
 
   def item_add
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -150,7 +150,7 @@ class MylistsController < ApplicationController
 
 
   def item_delete
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -167,7 +167,7 @@ class MylistsController < ApplicationController
 
 
   def item_edit
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -175,7 +175,6 @@ class MylistsController < ApplicationController
       redirect_to "/mylists", notice: "Something went wrong, please try again" and return
     end
 
-    @current_user = User.find_by(:id => session[:user_id])
     @selected_list = List.find_by(id: params[:list_id])
     @selected_item = Item.find_by(id: params[:item_id])
   end
@@ -186,7 +185,7 @@ class MylistsController < ApplicationController
   def list_access_remove
 
     # First make sure the user actually owns the list
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list
@@ -220,7 +219,7 @@ class MylistsController < ApplicationController
   def list_access_add
 
     # First make sure the user actually owns the list
-    @current_user = User.find_by(:id => session[:user_id])
+    @current_user = current_user
     @selected_list = List.find_by(id: params[:list_id])
 
     # Make sure user owns this list

@@ -23,7 +23,7 @@ class SharedlistsController < ApplicationController
 
 
     def listContents
-        @current_user = User.find_by(:id => session[:user_id])
+        @current_user = current_user
         @selected_list = List.find_by(id: params[:list_id])
 
         @permission = List.joins(:shared_lists).where("lists.id = ? and shared_lists.user_id = ? and lists.datedeleted is ?", params[:list_id], @current_user.id, nil)
@@ -44,7 +44,7 @@ class SharedlistsController < ApplicationController
     def claim_item
 
         # To avoid URL hacking, ensure user has access to requested list
-        @current_user = User.find_by(:id => session[:user_id])
+        @current_user = current_user
         @selected_list = List.find_by(id: params[:list_id])
 
         @permission = List.joins(:shared_lists).where("lists.id = ? and shared_lists.user_id = ? and lists.datedeleted is ?", params[:list_id], @current_user.id, nil)
@@ -53,15 +53,13 @@ class SharedlistsController < ApplicationController
            redirect_to "/mylists", notice: "Something went wrong, please try again" and return
         end
 
-
-# /sharedlists/3/item/claim?item_6_q_claimed=1&item_claimed=6&item_7_q_claimed=&item_8_q_claimed=&item_10_q_claimed=&item_11_q_claimed=&item_12_q_claimed=
-
         # From the form, identify the item
         item_claimed = Item.find_by(:id => params[:item_claimed])
 
         # Ensure item actually exists
         if item_claimed.nil?
             redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Something went wrong, please try again" and return
+
         # Ensure item is on this list
         elsif item_claimed.list_id != @selected_list.id
             redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Something went wrong, please try again" and return
@@ -79,14 +77,14 @@ class SharedlistsController < ApplicationController
 
 
             # Record the purchase
-            if Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, session[:user_id]).present?
-                p = Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, session[:user_id])
+            if Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, @current_user.id).present?
+                p = Purchase.find_by("item_id = ? AND user_id = ?", item_claimed.id, @current_user.id)
                 p.quantity_purchased = p.quantity_purchased + q_claimed
             else
                 p = Purchase.new
                 p.quantity_purchased = q_claimed
                 p.item_id = item_claimed.id
-                p.user_id = session[:user_id]
+                p.user_id = @current_user.id
             end
 
             p.date_purchased = Time.now
@@ -102,12 +100,12 @@ class SharedlistsController < ApplicationController
 
     def unclaim_item
         # To avoid URL hacking, ensure user has actually purchased the item to be deleted
-        @current_user = User.find_by(:id => session[:user_id])
+        @current_user = current_user
 
-        p = Purchase.find_by(:item_id => params[:item_id], :user_id => session[:user_id])
+        p = Purchase.find_by(:item_id => params[:item_id], :user_id => @current_user.id)
 
         if p.present?
-            Purchase.find_by(:item_id => params[:item_id], :user_id => session[:user_id]).destroy
+            Purchase.find_by(:item_id => params[:item_id], :user_id => @current_user.id).destroy
 
             redirect_to "/sharedlists/#{params[:list_id]}/contents", notice: "Your have released the item!"
         else

@@ -35,15 +35,7 @@ class WelcomeController < ApplicationController
 end
 
 
-def create_account
 
-  if current_user.present?
-    redirect_to "/mylists"
-  else
-    render 'create_account'
-  end
-
-end
 
 
 end

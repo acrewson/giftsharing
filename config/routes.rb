@@ -97,10 +97,6 @@ Giftsharing::Application.routes.draw do
 
   # USERS
 
-    #CREATE
-      get "/create_account" => "welcome#create_account"
-      get  "/signup"  => "users#create_new_user"
-
     #READ
       get  "/myprofile" => "users#profile_view"
 
@@ -121,6 +117,11 @@ Giftsharing::Application.routes.draw do
 
 # To Do List
 
+# Users
+  # Keep the verification query string around if user enters wrong password on first try (right now would have to go back to the original email to get the link again)
+  # Reset password link does not work currently
+  # Fix edit profile link - BROKEN
+
 # Functionality
   # Send emails later - not during http request
   # Make the generated emails better
@@ -132,9 +133,10 @@ Giftsharing::Application.routes.draw do
   # Some of my buttons in tables still not centered vertically
   # Set up pagination and filters?
     # https://github.com/amatsuda/kaminari
-    # Could do easier filters like his question board
+      # Could do easier filters like his question board
 
 # Robustness
+  # Use resource routing instead of original method
   # Add database constraints to the tables
   # Go through HTML and use ruby tags instead where possible
 
