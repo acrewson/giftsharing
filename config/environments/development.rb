@@ -31,6 +31,9 @@ Giftsharing::Application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.raise_delivery_errors = true
   ActionMailer::Base.smtp_settings = {
     address:              "smtp.gmail.com",
     port:                 587,
@@ -41,10 +44,6 @@ Giftsharing::Application.configure do
     enable_starttls_auto: true
   }
 
-
-  # Putting this in based on the rails security guides --> Not doing this - wrecked havoc
-  # config.force_ssl = true
-
-  # config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 end

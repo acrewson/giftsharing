@@ -34,34 +34,7 @@
                 <% end %>
               </td>
             </tr>
-            <tr><td>Street Address</td>
-              <td>
-                <% if @current_user.address.present? %>
-                  <%= @current_user.address %>
-                <% end %>
-              </td>
-            </tr>
-            <tr><td>City</td>
-              <td>
-                <% if @current_user.city.present? %>
-                  <%= @current_user.city %>
-                <% end %>
-              </td>
-            </tr>
-            <tr><td>State</td>
-              <td>
-                <% if @current_user.state.present? %>
-                  <%= @current_user.state.state_abbrev %>
-                <% end %>
-              </td>
-            </tr>
-            <tr><td>Zip Code</td>
-              <td>
-                <% if @current_user.zip.present? %>
-                  <%= @current_user.zip %>
-                <% end %>
-              </td>
-            </tr>
+            <!-- <%= render 'address_table' %> -->
             <tr><td>Gender</td>
               <td>
                 <% if @current_user.gender.present? %>

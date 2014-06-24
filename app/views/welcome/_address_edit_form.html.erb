@@ -1,0 +1,53 @@
+            <tr>
+              <td style="vertical-align: middle;">Street Address</td>
+              <td style="vertical-align: middle;">
+                <input name = "address" type="text" class="form-control"
+                  <% if @current_user.address.present? %>
+                    value="<%= @current_user.address %>"
+                  <% else %>
+                    placeholder="1000 Main Street"
+                  <% end %>
+                >
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle;">City</td>
+              <td style="vertical-align: middle;">
+                <input name = "city" type="text" class="form-control"
+                  <% if @current_user.city.present? %>
+                    value="<%= @current_user.city %>"
+                  <% else %>
+                    placeholder="Chicago"
+                  <% end %>
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>State</td>
+              <td>
+                <select name="state" id="state" required>
+                  <% if @current_user.state_id.nil? %>
+                    <option selected="selected" value=""></option>
+                  <% end %>
+                  <% State.all.each do |s| %>
+                      <% if s.id == @current_user.state_id %>
+                        <option selected="selected" value="<%= s.id %>"><%= s.state_abbrev %></option>
+                      <% else %>
+                        <option value="<%= s.id %>"><%= s.state_abbrev %></option>
+                      <% end %>
+                  <% end %>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: middle;">Zip Code</td>
+              <td style="vertical-align: middle;">
+                <input name = "zip" type="text" class="form-control" required
+                  <% if @current_user.zip.present? %>
+                    value="<%= @current_user.zip %>"
+                  <% else %>
+                    placeholder="60201"
+                  <% end %>
+                >
+              </td>
+            </tr>

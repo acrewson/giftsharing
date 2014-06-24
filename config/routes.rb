@@ -8,13 +8,6 @@ Giftsharing::Application.routes.draw do
 
 ##########################################################################
 
-  # LOGGING IN / OUT
-
-    get "/login/authenticate" => "session#authenticate"
-    get "/login/authenticate/:sec_verif" => "session#authenticate"
-    get "/logout" => "session#destroy"
-
-##########################################################################
 
   # MY LISTS
 
@@ -98,11 +91,11 @@ Giftsharing::Application.routes.draw do
   # USERS
 
     #READ
-      get  "/myprofile" => "users#profile_view"
+      get  "/myprofile" => "welcome#profile_view"
 
     #UPDATE
-      get  "/myprofile/edit" => "users#profile_edit"
-      get  "/myprofile/update" => "users#profile_update"
+      get  "/myprofile/edit" => "welcome#profile_edit"
+      get  "/myprofile/update" => "welcome#profile_update"
 
     #DELETE
       # Note: I am not currently offering a way for a user to de-activate their account
@@ -119,8 +112,6 @@ Giftsharing::Application.routes.draw do
 
 # Users
   # Keep the verification query string around if user enters wrong password on first try (right now would have to go back to the original email to get the link again)
-  # Reset password link does not work currently
-  # Fix edit profile link - BROKEN
 
 # Functionality
   # Send emails later - not during http request
