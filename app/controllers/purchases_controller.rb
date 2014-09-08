@@ -6,12 +6,19 @@ class PurchasesController < ApplicationController
 
   before_action :authenticate_user!
 
-  # The rails guides have "private" here - but this breaks things. Why?
-
   before_action :num_requests
+
+  before_action :complete_profile
 
   def num_requests
     @num_pending_req = ConnectionRequest.where("requested_user_id = ?", current_user.id).count
+  end
+
+  def complete_profile
+    if current_user.gender.nil? || current_user.birthdate.nil?
+      redirect_to "/myprofile", notice: "You need to complete your profile first!"
+    end
+
   end
 
   #####################################################################
