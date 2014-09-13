@@ -92,8 +92,8 @@ Giftsharing::Application.configure do
     address:              "smtp.gmail.com",
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'giftsharingtest@gmail.com',
-    password:             'Sharethegift',
+    user_name:            'savvygifter@gmail.com',
+    password:             'keepitsavvy',
     authentication:       'plain',
     enable_starttls_auto: true
   }
