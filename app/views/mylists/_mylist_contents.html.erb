@@ -21,14 +21,14 @@
                   <span><a href="/mylists/<%= @selected_list.id %>/contents/edit/<%= i.id %>"><i class="fa fa-pencil text_color_black"></i></a></span>
                 </td>
                 <td>
-                <span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.description %></a></span>
+                <span class="padding_right_10"> <%= i.description %></span>
                 <span class="pull-right expand"></span>
                 </td>
                 <td class="center_text" width="100"><%= i.quantity_requested %></td>
               </tr>
               <tr>
                 <td colspan="4">
-                  <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><%= i.request_type.request_type_description %></div>
+                  <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></span></div>
                   <div class="panel-body">
                     <%= i.comments %>
                   </div>

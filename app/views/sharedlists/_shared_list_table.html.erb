@@ -16,7 +16,7 @@
         <tbody>
           <% @shared_items.each do |i| %>
             <tr>
-                  <td style="vertical-align: middle;"><a target="_blank" href="<%= i.url %>"><%= i.description %></a>
+                  <td style="vertical-align: middle;"><%= i.description %>
                   <span class="pull-right expand"></span>
 
                   </td>
@@ -39,7 +39,7 @@
             </tr>
             <tr>
               <td colspan="4">
-                <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><%= i.request_type.request_type_description %></div>
+                <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></div>
                 <div class="panel-body">
                   <%= i.comments %>
                 </div>
