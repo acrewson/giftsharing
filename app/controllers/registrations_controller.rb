@@ -21,7 +21,7 @@ class RegistrationsController < Devise::RegistrationsController
         @temp_user = resource
         UserMailer.account_create_verify_email(resource).deliver
         # redirect_to "/", notice: "Please check your email and follow the link to complete your registration."
-        redirect_to "/confirm_account"
+        redirect_to "/confirm_account", notice: "Always remember to keep it savvy"
 
         # respond_with resource, location: root_url # after_sign_up_path_for(resource)
       else
