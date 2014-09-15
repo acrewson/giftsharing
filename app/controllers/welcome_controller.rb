@@ -98,6 +98,11 @@ end
   end
 
 
+  def confirm_acct
+    # This is for after a user creates a temporary account...putting it here so it doesn't screw with Devise.
+
+  end
+
 
 
 end

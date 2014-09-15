@@ -100,6 +100,9 @@ Giftsharing::Application.routes.draw do
     #DELETE
       # Note: I am not currently offering a way for a user to de-activate their account
 
+    # Confirming a temp account
+      get "/confirm_account" => "welcome#confirm_acct"
+
 ##########################################################################
 
 
