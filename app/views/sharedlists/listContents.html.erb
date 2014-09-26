@@ -8,7 +8,35 @@
 
 
 
+<!-- Javascript -->
+  <script>
 
+    $(document).ready(function(){
+        $("#shared_list_table tr:odd").addClass("odd");
+        $("#shared_list_table tr:not(.odd)").hide();
+        $("#shared_list_table tr:first-child").show();
+
+        $("#shared_list_table tr.odd").click(function(){
+            $(this).next("tr").toggle();
+            $(this).find(".expand").toggleClass("up");
+        });
+        //$("#report").jExpand();
+    });
+
+
+    $(document).ready(function(){
+        $("#shared_list_table2 tr:odd").addClass("odd");
+        $("#shared_list_table2 tr:not(.odd)").hide();
+        $("#shared_list_table2 tr:first-child").show();
+
+        $("#shared_list_table2 tr.odd").click(function(){
+            $(this).next("tr").toggle();
+            $(this).find(".expand").toggleClass("up");
+        });
+        //$("#report").jExpand();
+    });
+
+  </script>
 
 
 

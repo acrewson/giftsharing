@@ -6,3 +6,9 @@
 #shared_list_table span.expand {background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
 
 #shared_list_table span.up { background-position:0px 0px;}
+
+
+// There is probably a better way than copying this code again, but it works...
+#shared_list_table2 span.expand {background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
+
+#shared_list_table2 span.up { background-position:0px 0px;}

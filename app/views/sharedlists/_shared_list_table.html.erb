@@ -18,9 +18,7 @@
             <tr>
                   <td style="vertical-align: middle;"><%= i.description %>
                   <span class="pull-right expand"></span>
-
                   </td>
-                  <!-- <td style="vertical-align: middle;"><%= i.request_type.request_type_description %></td> -->
                   <td style="vertical-align: middle;" width="100" class="center_text"><%= i.quantity_requested %></td>
                   <td style="vertical-align: middle;" width="100" class="center_text"><%= [0, i.quantity_requested - i.purchases.sum("quantity_purchased")].max %></td>
 
@@ -39,7 +37,9 @@
             </tr>
             <tr>
               <td colspan="4">
-                <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></div>
+                <% if i.url != "http://" %>
+                  <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></span></div>
+                <% end %>
                 <div class="panel-body">
                   <%= i.comments %>
                 </div>
@@ -61,19 +61,4 @@
 
 
 
-<!-- Javascript -->
-  <script>
 
-    $(document).ready(function(){
-        $("#shared_list_table tr:odd").addClass("odd");
-        $("#shared_list_table tr:not(.odd)").hide();
-        $("#shared_list_table tr:first-child").show();
-
-        $("#shared_list_table tr.odd").click(function(){
-            $(this).next("tr").toggle();
-            $(this).find(".expand").toggleClass("up");
-        });
-        //$("#report").jExpand();
-    });
-
-  </script>

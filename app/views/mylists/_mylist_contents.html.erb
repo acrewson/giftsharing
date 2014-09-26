@@ -28,7 +28,9 @@
               </tr>
               <tr>
                 <td colspan="4">
-                  <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></span></div>
+                  <% if i.url != "http://" %>
+                    <div class="panel-body padding_bottom_2"><strong>Request Type: </strong><span class="padding_right_10"><a target="_blank" href="<%= i.url %>"><%= i.request_type.request_type_description %></a></span></div>
+                  <% end %>
                   <div class="panel-body">
                     <%= i.comments %>
                   </div>
