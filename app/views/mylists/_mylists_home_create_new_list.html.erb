@@ -4,7 +4,7 @@
 <form action="/mylists/create">
   <div class="form-group">
     <label for="listname">List Name</label>
-    <input name = "listname" type="text" class="form-control" id="listname" placeholder="For example: <%= @current_user.firstname %>'s Birthday List 2014">
+    <input name = "listname" type="text" class="form-control" id="listname" placeholder="For example: <%= @current_user.firstname %>'s Birthday List 2014" required>
   </div>
   <div class="form-group">
     <label for="listtype">List Type</label>
@@ -24,3 +24,5 @@
   </div>
   <input type="submit" class="btn btn-lg btn-success" value="Create list!">
 </form>
+
+<p>Date: <input type="text" id="datepicker"></p>
