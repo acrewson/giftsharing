@@ -149,7 +149,8 @@ class ConnectionsController < ApplicationController
 
   def send_request
     @current_user = current_user
-    requested_user = User.find_by(:email => params[:request_email])
+    requested_email = params[:request_email].downcase
+    requested_user = User.find_by(:email => requested_email)
 
     if requested_user.nil?
       requested_user_id = -99
@@ -196,14 +197,14 @@ class ConnectionsController < ApplicationController
 
       cr = ConnectionRequest.new
       cr.user_id = @current_user.id
-      cr.requested_user_id = User.find_by(:email => params[:request_email]).id
+      cr.requested_user_id = User.find_by(:email => requested_email).id
       cr.connection_type_id = params[:connection_type]
       cr.request_date  = Time.now
       cr.save
 
       UserMailer.connection_request_email(@current_user, requested_user).deliver
 
-      redirect_to "/connections", notice: "A connection request has been sent to #{params[:request_email]}"
+      redirect_to "/connections", notice: "A connection request has been sent to #{requested_email}"
 
     elsif requested_user.present? and is_self == 0 and is_already_connection == 0 and is_already_pending_request_from_you ==1 and is_already_pending_request_to_you ==0 and is_already_pending_request_from_you_temp == 0
 
@@ -227,11 +228,11 @@ class ConnectionsController < ApplicationController
     elsif requested_user.nil?
 
       # Create a temp user for this person
-      if TempUser.find_by(:email => params[:request_email]).present?
-        z = TempUser.find_by(:email => params[:request_email])
+      if TempUser.find_by(:email => requested_email).present?
+        z = TempUser.find_by(:email => requested_email)
       else
         z = TempUser.new
-        z.email = params[:request_email]
+        z.email = requested_email
         # This next one is just a placeholder for now, user not sent this for now
         sec_code = SecureRandom.urlsafe_base64
         z.security_code = sec_code
@@ -256,12 +257,12 @@ class ConnectionsController < ApplicationController
         trc.save
 
         # Send the invite email
-        UserMailer.connection_invite_email(@current_user, params[:request_email], temp_pw, sec_code).deliver
+        UserMailer.connection_invite_email(@current_user, requested_email, temp_pw, sec_code).deliver
 
-        redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
+        redirect_to "/connections", notice: "There is no account registered to #{requested_email}. We've sent them an invitation to join."
 
       else
-        redirect_to "/connections", notice: "You have already invited #{params[:request_email]} to join previously"
+        redirect_to "/connections", notice: "You have already invited #{requested_email} to join previously"
       end
 
     end
