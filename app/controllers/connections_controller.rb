@@ -238,7 +238,8 @@ class ConnectionsController < ApplicationController
         # Placeholders
         z.firstname = "Placeholder"
         z.lastname = "Placeholder"
-        z.password = "#{SecureRandom.urlsafe_base64[0,15]}"
+        temp_pw = "#{SecureRandom.urlsafe_base64[0,15]}"
+        z.password = temp_pw
 
         z.save
       end
@@ -254,7 +255,7 @@ class ConnectionsController < ApplicationController
         trc.save
 
         # Send the invite email
-        UserMailer.connection_invite_email(@current_user, params[:request_email]).deliver
+        UserMailer.connection_invite_email(@current_user, params[:request_email], temp_pw).deliver
 
         redirect_to "/connections", notice: "There is no account registered to #{params[:request_email]}. We've sent them an invitation to join."
 
