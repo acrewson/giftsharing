@@ -26,7 +26,7 @@ class UserMailer < ActionMailer::Base
     @current_user = current_user
     @requested_email = requested_email
     # @url  = 'http://afternoon-inlet-6717.herokuapp.com'
-    @url  = 'http://www.savvygifter.com/?verify=#{sec_code}'
+    @url  = "http://www.savvygifter.com/?verify=#{sec_code}"
     @temp_pw = temp_pw
     mail(to: @requested_email, subject: "#{@current_user.firstname} would like to connect on Savvy Gifter!")
   end
