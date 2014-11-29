@@ -17,6 +17,7 @@ Giftsharing::Application.routes.draw do
 
     #READ
     get  "/mylists" => "mylists#home"
+    get  "/mylists/old" => "mylists#old"
 
     #UPDATE
     get  "/mylists/:list_id/edit" => "mylists#list_edit"

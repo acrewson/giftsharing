@@ -5,6 +5,7 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr class="blue_white_table_header">
+          <th>Shared By</th>
           <th>List Name</th>
           <th>Event Date</th>
         </tr>
@@ -12,6 +13,7 @@
       <tbody>
         <% @lists_shared_with_me.each do |sharedlist| %>
           <tr>
+            <td><%= sharedlist.user.firstname + " " + sharedlist.user.lastname %> </td>
             <td><a href="/sharedlists/<%= sharedlist.id %>/contents"><%= sharedlist.listname %></a></td>
             <td><%= sharedlist.eventdate.strftime("%B %d, %Y") %></td>
           </tr>
@@ -30,4 +32,8 @@
       </div>
     </div>
   </div>
+<% end %>
+
+<% if @old_shared_lists.present? %>
+  <p>Click here for <a href="/mylists/old">old lists</a> shared with you</p>
 <% end %>
