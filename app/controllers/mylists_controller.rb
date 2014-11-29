@@ -35,15 +35,15 @@ class MylistsController < ApplicationController
 
     @mylists = current_user.lists.where("datedeleted is ?", nil)
 
-    @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate >= ?", current_user.id, nil, (Time.now - 2.days))
+    @lists_shared_with_me = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate >= ?", current_user.id, nil, (Time.now - 2.days)).order(:eventdate, :user_id, :listname)
 
-    @old_shared_lists = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate < ?", current_user.id, nil, (Time.now - 2.days))
+    @old_shared_lists = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate < ?", current_user.id, nil, (Time.now - 2.days)).order(eventdate: :desc, user_id: :asc, listname: :asc)
 
   end
 
   def old
     @current_user = current_user
-    @old_shared_lists = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate < ?", current_user.id, nil, (Time.now - 2.days))
+    @old_shared_lists = List.joins(:shared_lists).where("shared_lists.user_id = ? and lists.datedeleted is ? and eventdate < ?", current_user.id, nil, (Time.now - 2.days)).order(eventdate: :desc, user_id: :asc, listname: :asc)
   end
 
 
