@@ -62,4 +62,4 @@ gem "starter_generators", group: "development"
 gem 'devise'
 
 # install google api client?
-gem install google-api-client
+gem 'google-api-client'
