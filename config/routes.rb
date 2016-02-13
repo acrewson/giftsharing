@@ -1,4 +1,4 @@
-Giftsharing::Application.routes.draw do
+  Giftsharing::Application.routes.draw do
 
   root to: "welcome#home"
 
