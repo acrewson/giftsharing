@@ -21,7 +21,7 @@ Giftsharing::Application.configure do
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   # Note, I changed this to true on 4/12 to see if images would deploy
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
