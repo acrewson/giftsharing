@@ -150,7 +150,7 @@ class MylistsController < ApplicationController
     i.comments = params[:comments]
     i.url = params[:url]
 
-    if params[:url][0,7] != "http://"
+    if params[:url][0,7] != "http://" & params[:url][0,8] != "https://"
       i.url = "http://" + i.url
     end
 
